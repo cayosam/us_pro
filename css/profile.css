@@ -1,5 +1,5 @@
 body {
-    background-image: url(assets/img/city.jpg);
+    /*background-image: url(assets/img/city.jpg);*/
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -12,10 +12,10 @@ body {
     margin-top: 0;
 }*/
 
-footer {
+/*footer {
     position:absolute;
     bottom:0;
-}
+}*/
 
 
 
