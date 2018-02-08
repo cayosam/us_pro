@@ -139,7 +139,7 @@
           
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-    <link href="https://<fonts class="g"></fonts>oogleapis.com/icon?family=Material+Icons"
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet">
     <link rel="stylesheet" href="css/style.css"/>
     <link rel="stylesheet" href="css/responsive.css"/>
@@ -171,7 +171,7 @@
 
 
                       <div class="header-right">
-                <a class="navbar-item" href="#team">Contact</a>
+                <a class="navbar-item" href="contact.html">Contact</a>
             </div>
 
             
@@ -199,11 +199,11 @@
             <div class="col-sm-6 col-sm-6 ">
                   <div class="loginpanel">
                   <div class="txt">
-                  <input id="user" type="text" placeholder="E-mail" />
+                  <input id="user6" type="text" placeholder="E-mail" />
                   <label for="user" class="entypo-mail"></label>
                   </div>
                       <div class="txt">
-                        <input id="pwd" type="password" placeholder="Password" />
+                        <input id="pwd7" type="password" placeholder="Password" />
                           <label for="pwd" class="entypo-lock"></label>
                       </div>
   
@@ -213,14 +213,13 @@
                     <a href="javascript:void(0)" class="entypo-user-add" > Register</a>
                     </span>
                   </div>
-
+  
                   <a href="json_map.html" class="submit_button">
                   <input type="button" value="Visitor" class="submit_button">
                   </a>
-                  
 
 <div id="forget_pw">
-  <p>passwordを忘れた方は<a href="resetpw.html">こちら</a></p>
+  <p>passwordを忘れた方は<a href="#">こちら</a></p>
   </div>
   
   <div class="hr">
@@ -236,55 +235,52 @@
   </div>
 </div>
            
-</div>
+            </div>
 
            
         
 <div class="col-sm-6 col-sm-6">
 
-<form action="#" method="post">
     <div class="kaiintouroku">
         <font size="3" color="black">
             <u>
             <strong><div align="center"><p>新規会員登録</p></div></strong>
             </u></font>
-
         <div class="txt">
             <input id="user" type="text" placeholder="NickName" />
             <label for="user" class="entypo-user-add"></label>
-              <?php if ((isset($error["nick_name"])) && ($error["nick_name"]== 'blank')) { ?>
-              <p class="error">* ニックネームを入力してください。</p>
-              <?php } ?>
         </div>
-
-
-    <div class="txt">
-    <input type="text" name="email" placeholder="E-mail" size="20" maxlength="100" />
-    <label for="user" class="entypo-mail"></label>
-
-        </div>
-
 
         <div class="txt">
-            <input id="user" type="text" placeholder="Check E-mail Address" />
+            <input id="user1" type="text" placeholder="E-mail" />
             <label for="user" class="entypo-mail"></label>
         </div>
 
-    <strong>パスワードは最小8文字以上入力してください</strong>
-        <!-- テキストボックスの例 -->
-            <div class="txt">
-            <input type="text" name="txt" placeholder="Password" />
-            <label for="pwd" class="entypo-lock"></label>
-            </div>
 
         <div class="txt">
-            <input id="pwd" type="password" placeholder="Check Password" />
+            <input id="user2" type="text" placeholder="Check E-mail Address" />
+            <label for="user" class="entypo-mail"></label>
+        </div>
+
+
+        <div class="txt">
+            <input id="pwd1" type="password" placeholder="Password" />
             <label for="pwd" class="entypo-lock"></label>
         </div>
 
-    <input type="button" value="Confirm Account" onclick="chkNickName(this.form.txt.value);chkRegEmail(this.form.email.value);chkMinLength(this.form.txt, 8);" />
+        <div class="txt">
+            <input id="pwd2" type="password" placeholder="Check Password" />
+            <label for="pwd" class="entypo-lock"></label>
         </div>
-</form>
+
+        <div class="txt">
+        </div>
+
+        <div class="buttons">
+            <!--      <a href="join/index.php"> -->
+            <input type="button" class="hero-btn2" value="Confirm Account" />
+
+        </div>
 
         <!--hero-->
 
@@ -292,7 +288,7 @@
     <!--hero-container-->
 </div>
 
-<form action="#" method="post">
+
 <div class="col-sm-6 col-sm-6">
     <div class="kaiintouroku2">
         <font size="3" color="black">
@@ -300,17 +296,17 @@
         <strong><div align="center"><p>会員登録確認</p></div></strong>
         </u></font>
         <div class="txt">
-            <input id="user" type="text" placeholder="NickName" />
+            <input id="user_confirm" type="text" placeholder="NickName" readonly />
             <label for="user" class="entypo-user-add"></label>
         </div>
 
         <div class="txt">
-            <input id="user" type="text" placeholder="E-mail" />
+            <input id="email_confirm" type="text" placeholder="E-mail" />
             <label for="user" class="entypo-mail"></label>
         </div>
 
         <div class="txt">
-            <input id="pwd" type="password" placeholder="Password" />
+            <input id="pwd_confirm" type="password" placeholder="Password" />
             <label for="pwd" class="entypo-lock"></label>
         </div>
 
@@ -319,8 +315,7 @@
             <input type="button" class="hero-btn2" value="Create Account" />
         </div>
     </div>
-    </div>
-    </form>
+    </div>           
             <!--hero-background-->
 
 <!-- Features
@@ -367,7 +362,6 @@
         
         <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 
-<script src="js/input.js"></script>
 <script src="js/login.js"></script>
 <script src="js/script.js"></script>
 

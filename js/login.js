@@ -7,6 +7,13 @@ $(document).ready(function(){
   $('.kaiintouroku').hide();
   $('.kaiintouroku2').hide();
 
+  //Enterがクリックされたら
+  $('.hero-btn').click(function () {
+     
+  $('.loginpanel').show();
+  $('.hero-btn').hide();
+  
+  });
 
   //Registerがクリックされたら
     $('.entypo-user-add').click(function () {
@@ -24,6 +31,16 @@ $(document).ready(function(){
   $('.kaiintouroku2').show();
 //  $('.social-links').hide();
 //  $('.webscope').hide();
+
+//登録内容確認
+    var user = $("#user").val();
+    $("#user_confirm").val(user);
+
+    var email = $("#user1").val();
+    $("#email_confirm").val(email);
+
+    var pwd = $("#pwd1").val();
+    $("#pwd_confirm").val(email);
 
   });
 
