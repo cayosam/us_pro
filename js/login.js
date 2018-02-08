@@ -7,13 +7,6 @@ $(document).ready(function(){
   $('.kaiintouroku').hide();
   $('.kaiintouroku2').hide();
 
-  //Enterがクリックされたら
-  $('.hero-btn').click(function () {
-     
-  $('.loginpanel').show();
-  $('.hero-btn').hide();
-  
-  });
 
   //Registerがクリックされたら
     $('.entypo-user-add').click(function () {
