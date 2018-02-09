@@ -1,127 +1,132 @@
+
 <?php
-  session_start(); //SESSIONを使うときは絶対に必要
+  session_start();
 
 // DBに接続
-  require('../dbconnect.php');
+  require('dbconnect.php');
 
+  // 会員ボタンが押されたとき
+    if (isset($_POST) && !empty($_POST)) {
+      // 変数に入力された値を代入して扱いやすいようにする
+      $nick_name = $_POST['nick_name'];
+      $email = $_POST['email'];
+      $password = $_POST['password'];
 
-  // 書き直し処理（check.phpで書き直し、というボタンが押されたとき）
-  if (isset($_GET['action']) && $_GET['action'] == 'rewrite') {
-
-    // 書き直すために初期表示する情報を変数に格納
-    $nick_name = $_SESSION['join']['nick_name'];
-    $email = $_SESSION['join']['email'];
-    $password = $_SESSION['join']['password'];
-
-  }else{
-
-    $nick_name = '';
-    $email = '';
-    $password = '';
-}
-    
-
-// POST送信されたとき
-// $_POSTという変数が存在している、かつ、$_POSTという変数の中身が空でないとき
-// empty・・・中身が空を判定。0,"",null,falseというものをすべて空と認識する。
-  if (isset($_POST) && !empty($_POST)) {
-
-
-  // 入力チェック
-
-  //ニックネームが空っぽだったら$errorというエラー情報を格納する変数に
-  // nick_nameはblankだったというマークを保存しておく
-    if ($_POST["nick_name"] == '') {
-
-      $error["nick_name"] = 'blank';
-
-    }
-
-  // emailはblankだったというマークを保存しておく
-    if ($_POST["email"] == '') {
-
-      $error["email"] = 'blank';
-
-    }
-
-  // PWはblankだったというマークを保存しておく
-  // stren文字の長さ（文字数）を数字で返してくれる関数
-    if ($_POST["password"] == '') {
-      $error["password"] = 'blank';
-    }else if (strlen($_POST["password"]) < 4) {
-      $error["password"] = 'length';
-    }
-
-
-  // 入力チェック後、エラーが何もなければ、chack.phpに移動
-    // $errorが存在していなかったら入力が正常と認識
-    if (!isset($error)){
-
-      // emailの重複チェック
-      // DBに同じemailの登録があるか確認
       try {
-        // 検索条件にヒットした件数を取得するSQL文
-        // COUNT() SQL文の関数。ヒットした数を取得
-        // as 別名 取得したデータに別な名前を付けて扱いやすいようにする
-        $sql = "SELECT COUNT(*) as `cnt` FROM `members` WHERE `email`=?";
+  // DBに会員情報を登録するSQL文を作成
+  // now() MYSQLが用意している関数。現在日時を取得できる
+        $sql = "INSERT INTO `whereis_members` (`nick_name`, `email`, `password`, `created`, `modified`) VALUES (?,?,?,now(),now()) ";
 
-        // sql分実行
-        $data = array($_POST["email"]);
+  // SQL文実行
+  // sha1 暗号化を行う関数
+        $data = array($nick_name,$email,sha1($password));
         $stmt = $dbh->prepare($sql);
         $stmt->execute($data);
 
-        // 件数取得
-        $count = $stmt->fetch(PDO::FETCH_ASSOC);
+  // $_SESSIONの情報を削除
+  // // unset 指定した変数を削除するという意味。SESSIONじゃなくても使える
+  //       unset($_POST["join"]);
 
-        if ($count['cnt'] > 0) {
-          # 重複エラー
-          $error['email'] = "duplicated";
-        }
+  // ログインページへ遷移
+       header('Location: post.html');
+        exit();
+
+
       } catch (Exception $e) {
+        // tryで囲まれた処理でエラーが発生したときにやりたい処理を記述
         
+        echo 'SQL実行エラー:' . $e->getMessage();
+        exit();
+
       }
-
-      if (!isset($error)) {
-        # code...
-              // 画像の拡張子チェック
-      // jpg.png.gifはOK
-      // substr・・・文字列から範囲指定して一部分の文字を切り出す関数
-      // substr(文字列,切り出す文字のスタートの数)マイナス3の場合は、末尾からn文字目
-      // 例) 1.pngがファイル名の場合、$extにはpngが代入される
-      $ext = substr($_FILES['picture_path']['name'],-3);
-
-      if (($ext == 'png') || ($ext == 'jpg') || ($ext == 'gif') || ($ext == 'JPG')){
-      // 画像のアップロード処理
-      // 例）eriko1.pngをユーザが指定したとき、$picture_nameの中身は20171222142530eriko1.pngという文字列が代入されます
-      // ファイル名の決定
-      $picture_name = date('YmdHis') . $_FILES['picture_path']['name'];
-
-      // upload(ファイルに書き込み権限がないと保存されない)
-      // move_uploaded_file(アップロードしたいファイル、serverのどこにどういう名前でuploadするか指定)
-      move_uploaded_file($_FILES['picture_path']['tmp_name'], '../picture_path/' . $picture_name);
-
-  //SESSION変数に入力された値を保存する（どこの画面からも利用できる！）
-  // 注意！必ずファイルの一番上に、session_start();と書く
-  // POST送信された情報をjoinというキーを指定して保存 
-      $_SESSION['join'] = $_POST;
-      $_SESSION['join']['picture_path'] = $picture_name;
-
-  // check.phpに移動
-      header('Location: check.php');
-
-  // これ以下のコードを無駄に処理しないように、このページの処理を終了させる
-      exit();
-
-    }else{
-      $error['image'] = 'type';
     }
 
-      }
+?>
 
-      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php
+
+//クッキー情報が存在してたら（自動ログイン）
+// $_POSTにログイン情報を保存します
+if (isset($_COOKIE["email"]) && !empty($_COOKIE["email"])){
+  $_POST["login_email"] = $_COOKIE["email"];
+  $_POST["login_password"] = $_COOKIE["password"];
+  $_POST["save"] = "on";
+
+}
+
+//DBに接続
+require('dbconnect.php');
+
+// POST送信されていたら
+if (isset($_POST) && !empty($_POST)){
+  // 認証処理
+  try {
+    //メンバーズテーブルでテーブルの中からメールアドレスとパスワードが入力されたものと合致する
+    // データを取得
+    $login_sql = "SELECT * FROM `whereis_members` WHERE `email`=? AND `password`=?";
+
+    //SQL文実行
+    // パスワードは、入力されたものを暗号化した上で使用する
+    $login_data = array($_POST["login_email"],sha1($_POST["login_password"]));
+    $login_stmt = $dbh->prepare($login_sql);
+    $login_stmt->execute($login_data);
+
+    //1行取得
+    $member = $login_stmt->fetch(PDO::FETCH_ASSOC);
+    // echo "<pre>";
+    var_dump($member);
+    var_dump($login_sql);
+    // echo "</pre>";
+    
+    if ($member == false){
+      // 認証失敗
+      $error["login"] = "failed";
+    }else{
+      // 認証成功
+      // 1.セッション変数に、会員のidを保存
+      $_POST["id"] = $member["member_id"];
+
+      // 2.ログインした時間をセッション変数の保存
+      $_POST["time"] = time();
+
+      // // 3.自動ログインの処理
+      // if ($_POST["save"] == "on"){
+      //   //クッキーにログイン情報を記録
+      //   // setcookie(保存したい名前,保存したい値,保存したい期間：秒数)
+      //   setcookie('email',$_POST["email"], time()+60*60*24*14);
+      //   setcookie('password',$_POST["password"], time()+60*60*24*14);
+
+      // }
+
+      // 4.ログイン後の画面に移動
+      // header("Location: post.html");
+      exit();
+    }
+
+  } catch (Exception $e) {
+    
+  }
+
+
 }
 
 ?>
+
 
 <html>
 
@@ -140,7 +145,7 @@
           
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-    <link href="https://<fonts class="g"></fonts>oogleapis.com/icon?family=Material+Icons"
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet">
     <link rel="stylesheet" href="css/style.css"/>
     <link rel="stylesheet" href="css/responsive.css"/>
@@ -172,7 +177,7 @@
 
 
                       <div class="header-right">
-                <a class="navbar-item" href="#team">Contact</a>
+                <a class="navbar-item" href="contact.html">Contact</a>
             </div>
 
             
@@ -181,6 +186,7 @@
 
         <!-- Hero-Section
           ================================================== -->
+      <form method="POST" action="" >
 
         <div class="hero row">
             <div class="hero-right col-sm-6 col-sm-6">
@@ -200,28 +206,27 @@
             <div class="col-sm-6 col-sm-6 ">
                   <div class="loginpanel">
                   <div class="txt">
-                  <input id="user" type="text" placeholder="E-mail" />
+                  <input id="user6" type="text" placeholder="E-mail" name=login_email />
                   <label for="user" class="entypo-mail"></label>
                   </div>
                       <div class="txt">
-                        <input id="pwd" type="password" placeholder="Password" />
+                        <input id="pwd7" type="password" placeholder="Password" name=login_password />
                           <label for="pwd" class="entypo-lock"></label>
                       </div>
   
                   <div class="buttons">
-                    <input type="button" value="Login" />
+                    <input type="submit" value="Login" />
                     <span>
                     <a href="javascript:void(0)" class="entypo-user-add" > Register</a>
                     </span>
                   </div>
-
+  
                   <a href="json_map.html" class="submit_button">
                   <input type="button" value="Visitor" class="submit_button">
                   </a>
-                  
 
 <div id="forget_pw">
-  <p>passwordを忘れた方は<a href="resetpw.html">こちら</a></p>
+  <p>passwordを忘れた方は<a href="#">こちら</a></p>
   </div>
   
   <div class="hr">
@@ -237,55 +242,55 @@
   </div>
 </div>
            
-</div>
+            </div>
 
            
         
 <div class="col-sm-6 col-sm-6">
 
-<form action="#" method="post">
     <div class="kaiintouroku">
         <font size="3" color="black">
             <u>
             <strong><div align="center"><p>新規会員登録</p></div></strong>
             </u></font>
-
         <div class="txt">
             <input id="user" type="text" placeholder="NickName" />
             <label for="user" class="entypo-user-add"></label>
-              <?php if ((isset($error["nick_name"])) && ($error["nick_name"]== 'blank')) { ?>
-              <p class="error">* ニックネームを入力してください。</p>
-              <?php } ?>
+          <?php if((isset($error["login"])) && ($error["login"]== 'failed')){ ?>
+              <p class="error">* emailかパスワードが間違っています。</p>
+          <?php } ?>
         </div>
-
-
-    <div class="txt">
-    <input type="text" name="email" placeholder="E-mail" size="20" maxlength="100" />
-    <label for="user" class="entypo-mail"></label>
-
-        </div>
-
 
         <div class="txt">
-            <input id="user" type="text" placeholder="Check E-mail Address" />
+            <input id="user1" type="text" placeholder="E-mail" />
             <label for="user" class="entypo-mail"></label>
         </div>
 
-    <strong>パスワードは最小8文字以上入力してください</strong>
-        <!-- テキストボックスの例 -->
-            <div class="txt">
-            <input type="text" name="txt" placeholder="Password" />
-            <label for="pwd" class="entypo-lock"></label>
-            </div>
 
         <div class="txt">
-            <input id="pwd" type="password" placeholder="Check Password" />
+            <input id="user2" type="text" placeholder="Check E-mail Address" />
+            <label for="user" class="entypo-mail"></label>
+        </div>
+
+
+        <div class="txt">
+            <input id="pwd1" type="password" placeholder="Password" />
             <label for="pwd" class="entypo-lock"></label>
         </div>
 
-    <input type="button" value="Confirm Account" onclick="chkNickName(this.form.txt.value);chkRegEmail(this.form.email.value);chkMinLength(this.form.txt, 8);" />
+        <div class="txt">
+            <input id="pwd2" type="password" placeholder="Check Password" />
+            <label for="pwd" class="entypo-lock"></label>
         </div>
-</form>
+
+        <div class="txt">
+        </div>
+
+        <div class="buttons">
+            <!--      <a href="join/index.php"> -->
+            <input type="button" class="hero-btn2" value="Confirm Account" >
+
+        </div>
 
         <!--hero-->
 
@@ -293,74 +298,39 @@
     <!--hero-container-->
 </div>
 
-<form action="#" method="post">
+
 <div class="col-sm-6 col-sm-6">
+
+
     <div class="kaiintouroku2">
         <font size="3" color="black">
         <u>
         <strong><div align="center"><p>会員登録確認</p></div></strong>
         </u></font>
         <div class="txt">
-            <input id="user" type="text" placeholder="NickName" />
+            <input id="nick_name" type="text" placeholder="NickName" name="nick_name" readonly />
             <label for="user" class="entypo-user-add"></label>
         </div>
 
         <div class="txt">
-            <input id="user" type="text" placeholder="E-mail" />
+            <input id="email" type="text" placeholder="E-mail" name="email" readonly/>
             <label for="user" class="entypo-mail"></label>
         </div>
 
         <div class="txt">
-            <input id="pwd" type="password" placeholder="Password" />
+            <input id="password" type="password" placeholder="Password" name="password" readonly/>
             <label for="pwd" class="entypo-lock"></label>
         </div>
+<!--         <div class="buttons"> -->
+            <input type="submit" class="hero-btn2" value="Create Account"  />
 
-        <div class="buttons">
-            <!--      <a href="join/index.php"> -->
-            <input type="button" class="hero-btn2" value="Create Account" />
-        </div>
     </div>
-    </div>
-    </form>
+
+
+
+    </div>           
             <!--hero-background-->
-
-<!-- Features
-  ================================================== -->
-
- <!--features-section-->
-
-<!-- Logos
-  ================================================== -->
-
-
-
-<!-- White-Section
-  ================================================== -->
-
-<!--white-section-text-section--->
-
-
-<!-- Pricing
-  ================================================== -->
-<!--pricing-background-->
-
-<!-- Team
-  ================================================== -->
-
- <!--team-section--->
-
-<!-- Email-Section
-  ================================================== -->
-
-
-<!--blue-section-->
-
-<!-- Footer
-  ================================================== -->
-
-
-
-<!--footer-->
+      </form>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"
         integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
@@ -368,7 +338,6 @@
         
         <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 
-<script src="js/input.js"></script>
 <script src="js/login.js"></script>
 <script src="js/script.js"></script>
 
