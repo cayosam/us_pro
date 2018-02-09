@@ -1,3 +1,26 @@
+<?php
+//DB接続
+require('dbconnect.php');
+
+
+$sql = "SELECT * FROM `whereis_members`"; 
+$stmt = $dbh->prepare($sql);
+$stmt->execute();
+ 
+$login_menber = $stmt->fetch(PDO::FETCH_ASSOC);
+
+var_dump($login_menber);
+
+
+
+?>
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -47,7 +70,8 @@
           <div class="form-group">
             <label class="col-sm-3 control-label">Nick Name</label>
             <div class="col-sm-8">
-              <input type="text" name="nick_name" class="form-control" value="Ryo Tamura">
+              <input type="text" name="nick_name" class="form-control" value="<?php echo $login_menber["nick_name"]; ?>">
+              <!-- <input type="text" name="nick_name" class="form-control" value="Ryo Tamura"> -->
               <!-- <input type="text" name="nick_name" class="form-control" placeholder="例： Ryo Tamura" value=""> -->
               <!--<?php// if ((isset($error["nick_name"]) && ($error["nick_name"]) == 'blank')){ ?>-->
               <!--<p class="error">* Please Enter Your Nick Name</p>-->
@@ -59,7 +83,8 @@
           <div class="form-group">
             <label class="col-sm-3 control-label">E-mail</label>
             <div class="col-sm-8">
-              <input type="email" name="email" class="form-control" value="ryotamura@nexseed.com">
+              <input type="email" name="email" class="form-control" value="<?php echo $login_menber["email"]; ?>">
+              <!-- <input type="email" name="email" class="form-control" value="ryotamura@nexseed.com"> -->
               <!-- <input type="email" name="email" class="form-control" placeholder="例： ryotamura@nexseed.com" value=""> -->
               <!--<?php //if ((isset($error["email"]) && ($error["email"]) == 'blank')){ ?>-->
               <!--<p class="error">* Emailを入力してください。</p>-->
