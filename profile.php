@@ -4,20 +4,35 @@ require('dbconnect.php');
 
 
 $sql = "SELECT * FROM `whereis_members`"; 
+
 $stmt = $dbh->prepare($sql);
 $stmt->execute();
  
 $login_menber = $stmt->fetch(PDO::FETCH_ASSOC);
 
-var_dump($login_menber);
+// var_dump($login_menber['id']);
 
+$sql = "SELECT * FROM `whereis_map` WHERE `member_id`=?";
+$data = array($login_menber['id']);
+$stmt = $dbh->prepare($sql);
+$stmt->execute($data);
 
+    while(1){
+      
+      $one_movie = $stmt->fetch(PDO::FETCH_ASSOC);
+
+      if($one_movie == false){
+        break;
+      }else{
+        $whereis_map[] = $one_movie;
+  
+      }
+    }
+     // echo '<pre>';
+     //   var_dump($whereis_map);
+     // echo '</pre>';
 
 ?>
-
-
-
-
 
 
 
@@ -71,7 +86,7 @@ var_dump($login_menber);
             <label class="col-sm-3 control-label">Nick Name</label>
             <div class="col-sm-8">
               <input type="text" name="nick_name" class="form-control" value="<?php echo $login_menber["nick_name"]; ?>">
-              <!-- <input type="text" name="nick_name" class="form-control" value="Ryo Tamura"> -->
+              <!-- <input type="text" name="nick_name" class="form-control" value="<?//php echo $whereis_members["nick_name"]; ?>"> -->
               <!-- <input type="text" name="nick_name" class="form-control" placeholder="例： Ryo Tamura" value=""> -->
               <!--<?php// if ((isset($error["nick_name"]) && ($error["nick_name"]) == 'blank')){ ?>-->
               <!--<p class="error">* Please Enter Your Nick Name</p>-->
@@ -84,7 +99,6 @@ var_dump($login_menber);
             <label class="col-sm-3 control-label">E-mail</label>
             <div class="col-sm-8">
               <input type="email" name="email" class="form-control" value="<?php echo $login_menber["email"]; ?>">
-              <!-- <input type="email" name="email" class="form-control" value="ryotamura@nexseed.com"> -->
               <!-- <input type="email" name="email" class="form-control" placeholder="例： ryotamura@nexseed.com" value=""> -->
               <!--<?php //if ((isset($error["email"]) && ($error["email"]) == 'blank')){ ?>-->
               <!--<p class="error">* Emailを入力してください。</p>-->
@@ -139,6 +153,8 @@ var_dump($login_menber);
       </div>
     </div>
 
+
+      <?php for($i=0; $i < count($whereis_map); $i++) { ?>
       <div class="messages-table">
         <div class="messages text-center">
           <div class="messages-top">
@@ -148,19 +164,21 @@ var_dump($login_menber);
               <br><br>-->
                 <!-- <img src="http://c85c7a.medialib.glogster.com/taniaarca/media/71/71c8671f98761a43f6f50a282e20f0b82bdb1f8c/blog-images-1349202732-fondo-steve-jobs-ipad.jpg" width="100" height="100"> -->
                 <!-- <iframe width="854" height="480" src="https://www.youtube.com/embed/Kyk2pfEt_w4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
-                <iframe width="240" height="135" src="https://www.youtube.com/embed/Kyk2pfEt_w4?rel=0" frameborder="0" ></iframe>
+                <iframe width="240" height="135" src="<?php echo $whereis_map[$i]["movie_info"]; ?>" frameborder="0" ></iframe>
+                <!-- <iframe width="240" height="135" src="https://www.youtube.com/embed/Kyk2pfEt_w4?rel=0" frameborder="0" ></iframe> -->
               <form method="post">
                   <br>
                   <!-- 投稿場所 -->
-                  <a href="#">バングラデシュ</a>
+                  <a>バングラデシュ</a>
                   <!-- 投稿日時 -->
-                  <a href="#">[2018-01-25]</a><br>
+                  <a>[2018-01-25]</a><br>
                   <input type="button" value="削除" onclick="window.confirm('こちらの投稿を削除しますがよろしいですか？')">
                   <br><br>
               </form>
           </div>
         </div>
       </div>
+      <?php }?>
 
 
       <div class="messages-table">
