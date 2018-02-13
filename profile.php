@@ -3,33 +3,40 @@
 require('dbconnect.php');
 
 
-$sql = "SELECT * FROM `whereis_members`"; 
+$sql = "SELECT * FROM `whereis_members` WHERE `id`=1"; 
 
 $stmt = $dbh->prepare($sql);
 $stmt->execute();
  
-$login_menber = $stmt->fetch(PDO::FETCH_ASSOC);
+$login_member = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// var_dump($login_menber['id']);
+// var_dump($login_member['id']);
 
-$sql = "SELECT * FROM `whereis_map` WHERE `member_id`=?";
-$data = array($login_menber['id']);
-$stmt = $dbh->prepare($sql);
-$stmt->execute($data);
+$movie_sql = "SELECT * FROM `whereis_map` WHERE `member_id`=?
+              ORDER BY `created` DESC ";
+$movie_data = array($login_member['id']);
+$movie_stmt = $dbh->prepare($movie_sql);
+$movie_stmt->execute($movie_data);
 
+     // var_dump($movie_sql);
+     // var_dump($movie_data);
+
+$whereis_map = array();
     while(1){
-      
-      $one_movie = $stmt->fetch(PDO::FETCH_ASSOC);
 
+      $one_movie = $movie_stmt->fetch(PDO::FETCH_ASSOC);
+       // var_dump($one_movie);
       if($one_movie == false){
         break;
       }else{
         $whereis_map[] = $one_movie;
-  
+     // echo '<pre>';
+     //   var_dump($one_movie);
+     // echo '</pre>';
       }
     }
      // echo '<pre>';
-     //   var_dump($whereis_map);
+     //   var_dump($one_movie);
      // echo '</pre>';
 
 ?>
@@ -85,7 +92,7 @@ $stmt->execute($data);
           <div class="form-group">
             <label class="col-sm-3 control-label">Nick Name</label>
             <div class="col-sm-8">
-              <input type="text" name="nick_name" class="form-control" value="<?php echo $login_menber["nick_name"]; ?>">
+              <input type="text" name="nick_name" class="form-control" value="<?php echo $login_member["nick_name"]; ?>">
               <!-- <input type="text" name="nick_name" class="form-control" value="<?//php echo $whereis_members["nick_name"]; ?>"> -->
               <!-- <input type="text" name="nick_name" class="form-control" placeholder="例： Ryo Tamura" value=""> -->
               <!--<?php// if ((isset($error["nick_name"]) && ($error["nick_name"]) == 'blank')){ ?>-->
@@ -98,7 +105,7 @@ $stmt->execute($data);
           <div class="form-group">
             <label class="col-sm-3 control-label">E-mail</label>
             <div class="col-sm-8">
-              <input type="email" name="email" class="form-control" value="<?php echo $login_menber["email"]; ?>">
+              <input type="email" name="email" class="form-control" value="<?php echo $login_member["email"]; ?>">
               <!-- <input type="email" name="email" class="form-control" placeholder="例： ryotamura@nexseed.com" value=""> -->
               <!--<?php //if ((isset($error["email"]) && ($error["email"]) == 'blank')){ ?>-->
               <!--<p class="error">* Emailを入力してください。</p>-->
@@ -129,32 +136,8 @@ $stmt->execute($data);
 <!-- 連想配列のキーがカラム名と同じものにテーブルのカラム名と同じものをかく予定）-->
 <div class="container">
   <div class="row">
-    <div class="messages-table">
-      <div class="messages text-center">
-        <div class="messages-top">
-              <br>
-              <!--<?php //echo 01; ?>
-              <hr>
-              <br><br>-->
-                <!-- <img src="http://c85c7a.medialib.glogster.com/taniaarca/media/71/71c8671f98761a43f6f50a282e20f0b82bdb1f8c/blog-images-1349202732-fondo-steve-jobs-ipad.jpg" width="100" height="100"> -->
-                <!-- <iframe width="854" height="480" src="https://www.youtube.com/embed/jfe3TA4-PgU" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
-                <iframe width="240" height="135" src="https://www.youtube.com/embed/jfe3TA4-PgU?ewl=0" frameborder="0"></iframe>
-                  <form id="delete" method="post">
-                    <br>
-                    <!-- 投稿場所 -->
-                    <a href="#">南極</a>
-                    <!-- 投稿日時 -->
-                    <a href="#">[2018-01-25]</a><br>
-                    <input id="btn-delete" type="button" class="btn btn-default" value="削除">
-                    <!-- <input id="btn-delete" type="button" value="削除" onclick="window.confirm('こちらの投稿を削除しますがよろしいですか？')"> -->
-                    <br><br>
-                  </form>
-        </div>
-      </div>
-    </div>
-
-
-      <?php for($i=0; $i < count($whereis_map); $i++) { ?>
+      <?php foreach ($whereis_map as $one_movie) { ?>
+      <!-- <?php //for($i=0; $i < count($whereis_map); $i++) { ?> -->
       <div class="messages-table">
         <div class="messages text-center">
           <div class="messages-top">
@@ -164,45 +147,31 @@ $stmt->execute($data);
               <br><br>-->
                 <!-- <img src="http://c85c7a.medialib.glogster.com/taniaarca/media/71/71c8671f98761a43f6f50a282e20f0b82bdb1f8c/blog-images-1349202732-fondo-steve-jobs-ipad.jpg" width="100" height="100"> -->
                 <!-- <iframe width="854" height="480" src="https://www.youtube.com/embed/Kyk2pfEt_w4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
-                <iframe width="240" height="135" src="<?php echo $whereis_map[$i]["movie_info"]; ?>" frameborder="0" ></iframe>
+                <iframe width="240" height="135" src="<?php echo $one_movie["movie_info"]; ?>" frameborder="0" ></iframe>
                 <!-- <iframe width="240" height="135" src="https://www.youtube.com/embed/Kyk2pfEt_w4?rel=0" frameborder="0" ></iframe> -->
-              <form method="post">
+                <form id="delete" method="post">
                   <br>
                   <!-- 投稿場所 -->
-                  <a>バングラデシュ</a>
+                  <!-- <a>バングラデシュ</a> -->
+                  <a><?php echo $one_movie["address"];?></a>
                   <!-- 投稿日時 -->
-                  <a>[2018-01-25]</a><br>
-                  <input type="button" value="削除" onclick="window.confirm('こちらの投稿を削除しますがよろしいですか？')">
+                  <a>
+                  <!-- <?php// echo $whereis_map["created"];?> -->
+                  <?php
+                  $created_date = $one_movie["created"];
+                  //strtotime 文字型のデータを日時型に変換できる
+                  //(Y年m月d日 と記述することも可能)(H24時間表記、h12時間表記)
+                  $created_date = date("Y-m-d H:i",strtotime($created_date));
+                  echo $created_date;
+                  ?>
+                  </a><br>
+                    <input id="btn-delete" type="button" class="btn btn-default" value="削除">
                   <br><br>
-              </form>
+                </form>
           </div>
         </div>
       </div>
       <?php }?>
-
-
-      <div class="messages-table">
-        <div class="messages text-center">
-          <div class="messages-top">
-              <br>
-              <!--<?php //echo 01; ?>
-              <hr>
-              <br><br>-->
-                <!-- <img src="http://c85c7a.medialib.glogster.com/taniaarca/media/71/71c8671f98761a43f6f50a282e20f0b82bdb1f8c/blog-images-1349202732-fondo-steve-jobs-ipad.jpg" width="100" height="100"> -->
-                <!-- <iframe width="854" height="480" src="https://www.youtube.com/embed/g4rB2hORVes" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
-                <iframe width="240" height="135" src="https://www.youtube.com/embed/g4rB2hORVes?rel=0" frameborder="0" ></iframe>
-              <form method="post">
-                  <br>
-                  <!-- 投稿場所 -->
-                  <a href="#">セブ</a>
-                  <!-- 投稿日時 -->
-                  <a href="#">[2018-01-25]</a><br>
-                  <input type="button" value="削除" onclick="window.confirm('こちらの投稿を削除しますがよろしいですか？')">
-                  <br><br>
-              </form>
-          </div>
-        </div>
-      </div>
   </div>
 </div>
 
