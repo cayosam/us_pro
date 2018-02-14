@@ -7,14 +7,6 @@ $(document).ready(function(){
   $('.kaiintouroku').hide();
   $('.kaiintouroku2').hide();
 
-  //Enterがクリックされたら
-  $('.hero-btn').click(function () {
-     
-  $('.loginpanel').show();
-  $('.hero-btn').hide();
-  
-  });
-
   //Registerがクリックされたら
     $('.entypo-user-add').click(function () {
     
@@ -40,7 +32,7 @@ $(document).ready(function(){
     $("#email").val(email);
 
     var pwd = $("#pwd1").val();
-    $("#password").val(email);
+    $("#password").val(pwd);
 
   });
 

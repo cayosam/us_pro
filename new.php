@@ -3,14 +3,7 @@
 
 // DBに接続
 require('dbconnect.php');
-// //クッキー情報が存在してたら（自動ログイン）
-// // $_POSTにログイン情報を保存します
-// if (isset($_COOKIE["email"]) && !empty($_COOKIE["email"])){
-//   $_POST["login_email"] = $_COOKIE["email"];
-//   $_POST["login_password"] = $_COOKIE["password"];
-//   $_POST["save"] = "on";
 
-// }
 
 // POST送信されたとき
 // $_POSTという変数が存在している、かつ、$_POSTという変数の中身が空でないとき
@@ -18,27 +11,31 @@ require('dbconnect.php');
   if (isset($_POST) && !empty($_POST)) {
 
 
-  // 入力チェック
-
   //ニックネームが空っぽだったら$errorというエラー情報を格納する変数に
+  // 入力チェック
+    if ($_POST["username"] == '') {
+
+      $error["username"] = 'blank';
+    }
+      // var_dump($error["email"]);
 
   // emailはblankだったというマークを保存しておく
-    if ($_POST["login_email"] == '') {
+    if ($_POST["email"] == '') {
 
-      $error["login_email"] = 'blank';
+      $error["email"] = 'blank';
 
     }
+
+      // var_dump($error["email"]);  
+
 
   // PWはblankだったというマークを保存しておく
   // stren文字の長さ（文字数）を数字で返してくれる関数
-    if ($_POST["login_password"] == '') {
-      $error["login_password"] = 'blank';
-    }else if (strlen($_POST["login_password"]) < 8) {
-      $error["login_password"] = 'length';
+    if ($_POST["password"] == '') {
+      $error["password"] = 'blank';
+    }else if (strlen($_POST["password"]) < 8) {
+      $error["password"] = 'length';
     }
-
-// var_dump($_POST["login_email"]);
-// var_dump($_POST["login_password"]);
 
 
   // 入力チェック後、エラーが何もなければ、移動
@@ -49,27 +46,25 @@ require('dbconnect.php');
   try {
     //メンバーズテーブルでテーブルの中からメールアドレスとパスワードが入力されたものと合致する
     // データを取得
-    $login_sql = "SELECT * FROM `whereis_members` WHERE `email`=? AND `password`=?";
+    $login_sql = "SELECT COUNT(*) as `cnt` FROM `whereis_members` WHERE `email`=?";
 
     //SQL文実行
     // パスワードは、入力されたものを暗号化した上で使用する
-    $login_data = array($_POST["login_email"],sha1($_POST["login_password"]));
+    $login_data = array($_POST["email"]);
     $login_stmt = $dbh->prepare($login_sql);
     $login_stmt->execute($login_data);
 
-// var_dump($_POST["login_email"]);
-// var_dump($_POST["login_password"]);
-// var_dump(sha1($_POST["login_password"]));
+        // 件数取得
+    $count = $login_stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($count['cnt'] > 0) {
+          # 重複エラー
+          $error["email"] = "duplicated";
 
     //1行取得
-    $member = $login_stmt->fetch(PDO::FETCH_ASSOC);
 
     // var_dump($member);
     // var_dump($login_sql);
-
-    if ($member == false){
-      // 認証失敗
-      $error["login"] = "failed";
 
     }else{
       // 認証成功
@@ -89,7 +84,9 @@ require('dbconnect.php');
       // }
 
       // 4.ログイン後の画面に移動
-      header("Location: post.html");
+      // header("Location: post.html");
+
+
       exit();
     }
 
@@ -126,6 +123,14 @@ require('dbconnect.php');
 
 
 <body>
+<script type="text/javascript">
+   $(document).ready(function(){
+    $('.loginpanel').hide();   
+    $('.kaiintouroku').show();
+    });
+</script>
+
+
     <!-- Navigation
     ================================================== -->
 <div class="hero-background">
@@ -216,7 +221,7 @@ require('dbconnect.php');
 
 
                 <!--新規会員登録-->
-                <form id="modal-content" method="POST" action="request.php" >
+                <form method="POST" action="" >
                 <div class="col-sm-6 col-sm-6">
                     <div class="kaiintouroku">
                         <font size="3" color="black">
@@ -228,12 +233,9 @@ require('dbconnect.php');
                             <input id="user" type="text" placeholder="NickName" name="username" />
                             <label for="user" class="entypo-user-add"></label>
                         </div>
-                        <?php if ((isset($_GET["error"]) == 3)) { ?>
-                         <p class="error">* ユーザネームを入力してください。</p>
+                         <?php if ((isset($error["username"])) && ($error["username"]== 'blank')) { ?>
+                        <p class="error">* ニックネームを入力してください。</p>
                         <?php } ?>
-<!--                         <?php if ((isset($error["username"])) && ($error["username"]== 'blank')) { ?>
-                        <p class="error">* ユーザネームを入力してください。</p>
-                        <?php } ?> -->
 
                         <div class="txt">
                          <input id="user1" type="text" placeholder="E-mail" name="email" />
@@ -242,7 +244,7 @@ require('dbconnect.php');
                         <p class="error">* Eメールを入力してください。</p>
                         <?php } ?>
 
-                        <?php if ((isset($_GET["error"]) == 2)) { ?>
+                        <?php if (($error["email"] = "duplicated")) { ?>
                           <p class="error">* 入力されたEmailは登録済みです。</p>
                         <?php } ?>
 
@@ -257,11 +259,13 @@ require('dbconnect.php');
                             <input id="pwd1" type="password" placeholder="Password" name=password />
                             <label for="pwd" class="entypo-lock"></label>
                         </div>
-
-                         <?php if ((isset($_GET["error"]) == 2)) { ?>
-                          <p class="error">* パスワードは、8文字以上入力してください。</p>
+                        <?php if ((isset($error["password"])) && ($error["password"]== 'blank')) { ?>
+                        <p class="error">* パスワードを入力してください。</p>
                         <?php } ?>
 
+                  <?php if ((isset($error["password"])) && ($error["password"]== 'length')) { ?>
+                   <p class="error">* パスワードは、8文字以上入力してください。</p>
+                  <?php } ?>
 
                         <div class="txt">
                             <input id="pwd2" type="password" placeholder="Check Password" name="password2" />
@@ -272,62 +276,39 @@ require('dbconnect.php');
                         </div>
 
                         
-
                         <div class="buttons">
                             <!--      <a href="join/index.php"> -->
-                        <input type="submit" id="ajax" class="hero-btn2" value="Confirm Account" name="btn1"/>
+                        <input type="submit" class="hero-btn2" value="Confirm Account" name="btn1"/>
                         </div>
-                        <div class="result"></div>
-                        <script type="text/javascript">
-
-                        $(function(){
-                        //submitしたときの挙動
-                        $('#modal-content').on('submit',function(e){
-                            e.preventDefault();
-                            //Loginが押されたら
-                            $.ajax({
-                                url:'request.php',
-                                type:'POST',
-                                data:{
-                                    'email':$('#email').val(),
-                                    'password':$('#password').val(),
-                                    'save':$('#remember').val()
-                                }
-                            })
-                            .done(function(data){
-                                $('.result').html(data);
-                                console.log(data);
-                            })
-                            .fail(function(){
-                                $('.result').html(data);
-                                console.log(data);
-                            });
-                        });
-
-                        $('#ajax').on('click',function(){
-                            $.ajax({
-                                url:'request.php',
-                                type:'POST',
-                                data:{
-                                    'email':$('#email').val(),
-                                    'password':$('#password').val(),
-                                    'save':$('#remember').val()
-                                }
-                            })
-                            .done(function(data){
-                                $('.result').html(data);
-                                console.log(data);
-                            })
-                            .fail(function(data){
-                                $('.result').html(data);
-                                console.log(data);
-                            });
-                        });
-                    });
-                </script>
 
                     </div>
                 </div>
+<!--                         <?php if ((isset($error["username"])) && ($error["password"])) { ?>
+                        
+                        <script type="text/javascript">
+                        $(document).ready(function(){
+                        $('.loginpanel').hide();
+                        $('.hero-btn').hide();
+                        $('.kaiintouroku').hide();
+                        $('.kaiintouroku2').show();
+                      //  $('.social-links').hide();
+                      //  $('.webscope').hide();
+
+                      //登録内容確認
+                        var user = $("#user").val();
+                        $("#nick_name").val(user);
+
+                         var email = $("#user1").val();
+                         $("#email").val(email);
+
+                         var pwd = $("#pwd1").val();
+                         $("#password").val(pwd);
+                        </script>
+                        });
+
+                      });
+                      <?php } ?> -->
+                      ?>
                 </form>
                 <!--end of 新規会員登録-->
 
@@ -376,6 +357,8 @@ require('dbconnect.php');
                 <!--end of 会員登録確認-->
 
 
+
+
                 
         </div><!--end of hero row-->
     </div><!--end of container-->
@@ -389,23 +372,6 @@ require('dbconnect.php');
     <script src="js/login.js"></script>
     <script src="js/script.js"></script>
 
-
-    <?php if ((isset($_GET["error"]) == 2)) { ?>
-
-  <script type="text/javascript">
-    console.log('error2');
-   $(document).ready(function(){
-    $('.loginpanel').hide();   
-    $('.kaiintouroku').show();
-    });
-    
-
-
-  </script>
- 
-<?php }
-
-?>
 
 </body>
 
