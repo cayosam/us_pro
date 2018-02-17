@@ -73,20 +73,6 @@ require('dbconnect.php');
 
     }else{
       // 認証成功
-      // 1.セッション変数に、会員のidを保存
-      // $_POST["id"] = $member["member_id"];
-
-      // 2.ログインした時間をセッション変数の保存
-      // $_POST["time"] = time();
-
-      // // 3.自動ログインの処理
-      // if ($_POST["save"] == "on"){
-      //   //クッキーにログイン情報を記録
-      //   // setcookie(保存したい名前,保存したい値,保存したい期間：秒数)
-      //   setcookie('email',$_POST["email"], time()+60*60*24*14);
-      //   setcookie('password',$_POST["password"], time()+60*60*24*14);
-
-      // }
 
       // 4.ログイン後の画面に移動
       header("Location: post.html");
@@ -201,20 +187,6 @@ require('dbconnect.php');
                 </form>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 <!--新規会員登録-->
                 <form id="modal-content" method="POST" action="request.php" >
                 <div class="col-sm-6 col-sm-6">
@@ -225,57 +197,62 @@ require('dbconnect.php');
                             </strong></u>
                         </font>
                         <div class="txt">
-                            <input id="user" type="text" placeholder="NickName" name="username" />
-                            <label for="user" class="entypo-user-add"></label>
-                        </div>
-                        <?php if ((isset($_GET["error"]) == 3)) { ?>
+                        <input id="username" type="text" placeholder="NickName" name="nick_name" />
+                        <label for="username" class="entypo-user-add"></label>
+
+                        <?php if (isset($_GET["error"]) && ($_GET["error"] == 3)) { ?>
                          <p class="error">* ユーザネームを入力してください。</p>
                         <?php } ?>
-<!--                         <?php if ((isset($error["username"])) && ($error["username"]== 'blank')) { ?>
-                        <p class="error">* ユーザネームを入力してください。</p>
-                        <?php } ?> -->
-
+                        </div>
+                        
                         <div class="txt">
                          <input id="user1" type="text" placeholder="E-mail" name="email" />
-                        <label for="user" class="entypo-mail"></label>
-                        <?php if ((isset($error["email"])) && ($error["email"]== 'blank')) { ?>
+                        <label for="user1" class="entypo-mail"></label>
+                        <?php if (isset($_GET["error"]) && ($_GET["error"] == 4)) { ?>
                         <p class="error">* Eメールを入力してください。</p>
                         <?php } ?>
 
-                        <?php if ((isset($_GET["error"]) == 2)) { ?>
+                        <?php if (isset($_GET["error"]) && ($_GET["error"] == 2)) { ?>
                           <p class="error">* 入力されたEmailは登録済みです。</p>
                         <?php } ?>
-
                         </div>
 
                         <div class="txt">
-                            <input id="user2" type="text" placeholder="Check E-mail Address" name="email2" />
+                            <input id="email2" type="text" placeholder="Check E-mail Address" name="email2" />
                             <label for="user" class="entypo-mail"></label>
+                        <?php if (isset($_GET["error"]) && ($_GET["error"] == 7)) { ?>
+                          <p class="error">* 入力されたEmailと確認Emailが一致しません。</p>
+                        <?php } ?>
                         </div>
 
                         <div class="txt">
-                            <input id="pwd1" type="password" placeholder="Password" name=password />
-                            <label for="pwd" class="entypo-lock"></label>
+                            <input id="pwd1" type="password" placeholder="password" name="password" />
+                            <label for="password" class="entypo-lock"></label>
                         </div>
-
-                         <?php if ((isset($_GET["error"]) == 2)) { ?>
-                          <p class="error">* パスワードは、8文字以上入力してください。</p>
+                        
+                        <?php if (isset($_GET["error"]) && ($_GET["error"] == 5)) { ?>
+                        <p class="error">パスワードを入力してください。</p>
                         <?php } ?>
 
+                        <?php if (isset($_GET["error"]) && ($_GET["error"] == 6)) { ?>
+                        <p class="error">パスワードは、8文字以上入力してください。</p>
+                        <?php } ?>                        
 
                         <div class="txt">
-                            <input id="pwd2" type="password" placeholder="Check Password" name="password2" />
+                            <input id="password2" type="password" placeholder="Check Password" name="password2" />
                             <label for="pwd" class="entypo-lock"></label>
+                        <?php if (isset($_GET["error"]) && ($_GET["error"] == 8)) { ?>
+                          <p class="error">* 入力されたパスワードと確認パスワードが一致しません。</p>
+                        <?php } ?>
                         </div>
 
                         <div class="txt">
                         </div>
-
                         
 
                         <div class="buttons">
                             <!--      <a href="join/index.php"> -->
-                        <input type="submit" id="ajax" class="hero-btn2" value="Confirm Account" name="btn1"/>
+                        <input type="submit" id="ajax" class="hero-btn2" value="Confirm Account" />
                         </div>
                         <div class="result"></div>
                         <script type="text/javascript">
@@ -289,8 +266,11 @@ require('dbconnect.php');
                                 url:'request.php',
                                 type:'POST',
                                 data:{
+                                    'username':$('#username').val(),
                                     'email':$('#email').val(),
+                                    'email2':$('#email2').val(),
                                     'password':$('#password').val(),
+                                    'password2':$('#password2').val(),
                                     'save':$('#remember').val()
                                 }
                             })
@@ -309,8 +289,11 @@ require('dbconnect.php');
                                 url:'request.php',
                                 type:'POST',
                                 data:{
+                                    'username':$('#username').val(),
                                     'email':$('#email').val(),
+                                    'email2':$('#email2').val(),
                                     'password':$('#password').val(),
+                                    'password2':$('#password2').val(),
                                     'save':$('#remember').val()
                                 }
                             })
@@ -330,16 +313,6 @@ require('dbconnect.php');
                 </div>
                 </form>
                 <!--end of 新規会員登録-->
-
-
-
-
-
-
-
-
-
-
 
 
                <!--会員登録確認-->
@@ -365,7 +338,7 @@ require('dbconnect.php');
                         </div>
 
                         <div class="txt">
-                            <input id="password" type="password" placeholder="Password" name="password" readonly/>
+                            <input id="password" type="password" placeholder="password" name="password" readonly/>
                             <label for="pwd" class="entypo-lock"></label>
                         </div>
                         <!--         <div class="buttons"> -->
@@ -390,7 +363,7 @@ require('dbconnect.php');
     <script src="js/script.js"></script>
 
 
-    <?php if ((isset($_GET["error"]) == 2)) { ?>
+<?php if (isset($_GET["error"]) && ($_GET["error"] > 0)) { ?>
 
   <script type="text/javascript">
     console.log('error2');

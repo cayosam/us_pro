@@ -25,7 +25,7 @@ $(document).ready(function(){
 //  $('.webscope').hide();
 
 //登録内容確認
-    var user = $("#user").val();
+    var user = $("#username").val();
     $("#nick_name").val(user);
 
     var email = $("#user1").val();
