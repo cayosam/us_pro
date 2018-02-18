@@ -136,8 +136,8 @@ require('dbconnect.php');
                 <div class="col-sm-6 col-sm-6 ">
                     <div class="loginpanel">
                         <div class="txt">
-                            <input id="user6" type="text" placeholder="E-mail" name="login_email" />
-                            <label for="user" class="entypo-mail"></label>                           
+                            <input id="user6" type="email" placeholder="E-mail" name="login_email" />
+                            <label for="user" class="entypo-mail"></label>
                   <?php if ((isset($error["login_email"])) && ($error["login_email"]== 'blank')) { ?>
                   <p class="error">* Eメールを入力してください。</p>
                   <?php } ?>
@@ -197,7 +197,7 @@ require('dbconnect.php');
                             </strong></u>
                         </font>
                         <div class="txt">
-                        <input id="username" type="text" placeholder="NickName" name="nick_name" />
+                        <input id="username" type="email" placeholder="NickName" name="nick_name" />
                         <label for="username" class="entypo-user-add"></label>
 
                         <?php if (isset($_GET["error"]) && ($_GET["error"] == 3)) { ?>
@@ -206,7 +206,7 @@ require('dbconnect.php');
                         </div>
                         
                         <div class="txt">
-                         <input id="user1" type="text" placeholder="E-mail" name="email" />
+                         <input id="user1" type="email" placeholder="E-mail" name="email" />
                         <label for="user1" class="entypo-mail"></label>
                         <?php if (isset($_GET["error"]) && ($_GET["error"] == 4)) { ?>
                         <p class="error">* Eメールを入力してください。</p>
@@ -218,7 +218,7 @@ require('dbconnect.php');
                         </div>
 
                         <div class="txt">
-                            <input id="email2" type="text" placeholder="Check E-mail Address" name="email2" />
+                            <input id="email2" type="email" placeholder="Check E-mail Address" name="email2" />
                             <label for="user" class="entypo-mail"></label>
                         <?php if (isset($_GET["error"]) && ($_GET["error"] == 7)) { ?>
                           <p class="error">* 入力されたEmailと確認Emailが一致しません。</p>
@@ -328,12 +328,12 @@ require('dbconnect.php');
                         </font>
                         
                         <div class="txt">
-                            <input id="nick_name" type="text" placeholder="NickName" name="nick_name" readonly />
+                            <input id="nick_name" type="email" placeholder="NickName" name="nick_name" readonly />
                             <label for="user" class="entypo-user-add"></label>
                         </div>
 
                         <div class="txt">
-                            <input id="email" type="text" placeholder="E-mail" name="email" readonly/>
+                            <input id="email" type="email" placeholder="E-mail" name="email" readonly/>
                             <label for="user" class="entypo-mail"></label>
                         </div>
 
