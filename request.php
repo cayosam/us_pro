@@ -62,7 +62,7 @@ require('dbconnect.php');
 
       $redirect_flag = 5;
 
-      }else if(strlen($_POST["password"]) < 8) {
+      }else if(strlen($_POST["password"]) < 4) {
 
       $redirect_flag = 6;
 } 
