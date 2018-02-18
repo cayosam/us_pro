@@ -29,7 +29,7 @@
   //       unset($_POST["join"]);
 
   // ログインページへ遷移
-       header('Location: ../post.html');
+       header('Location: ../post.php');
         exit();
 
 

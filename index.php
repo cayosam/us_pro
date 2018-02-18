@@ -3,14 +3,15 @@
 
 // DBに接続
 require('dbconnect.php');
-// //クッキー情報が存在してたら（自動ログイン）
-// // $_POSTにログイン情報を保存します
-// if (isset($_COOKIE["email"]) && !empty($_COOKIE["email"])){
-//   $_POST["login_email"] = $_COOKIE["email"];
-//   $_POST["login_password"] = $_COOKIE["password"];
-//   $_POST["save"] = "on";
 
-// }
+
+//クッキー情報が存在してたら（自動ログイン）
+// $_POSTにログイン情報を保存します
+if (isset($_COOKIE["email"]) && !empty($_COOKIE["email"])){
+  $_POST["login_email"] = $_COOKIE["email"];
+  $_POST["login_password"] = $_COOKIE["password"];
+
+}
 
 // POST送信されたとき
 // $_POSTという変数が存在している、かつ、$_POSTという変数の中身が空でないとき
@@ -37,10 +38,6 @@ require('dbconnect.php');
       $error["login_password"] = 'length';
     }
 
-// var_dump($_POST["login_email"]);
-// var_dump($_POST["login_password"]);
-
-
   // 入力チェック後、エラーが何もなければ、移動
     // $errorが存在していなかったら入力が正常と認識
     if (!isset($error)){
@@ -57,15 +54,8 @@ require('dbconnect.php');
     $login_stmt = $dbh->prepare($login_sql);
     $login_stmt->execute($login_data);
 
-// var_dump($_POST["login_email"]);
-// var_dump($_POST["login_password"]);
-// var_dump(sha1($_POST["login_password"]));
-
     //1行取得
     $member = $login_stmt->fetch(PDO::FETCH_ASSOC);
-
-    // var_dump($member);
-    // var_dump($login_sql);
 
     if ($member == false){
       // 認証失敗
@@ -73,9 +63,23 @@ require('dbconnect.php');
 
     }else{
       // 認証成功
+      // 1.セッション変数に、会員のidを保存
+      $_SESSION["id"] = $member["id"];
+
+      // 2.ログインした時間をセッション変数の保存
+      $_SESSION["time"] = time();
+
+      // 3.自動ログインの処理
+      if ($_POST["save"] == "on"){
+        //クッキーにログイン情報を記録
+        // setcookie(保存したい名前,保存したい値,保存したい期間：秒数)
+        setcookie('login_email',$_POST["login_email"], time()+60*60*24*14);
+        setcookie('login_password',$_POST["login_password"], time()+60*60*24*14);
+
+      }
 
       // 4.ログイン後の画面に移動
-      header("Location: post.html");
+      header("Location: post.php");
       exit();
     }
 
@@ -121,7 +125,7 @@ require('dbconnect.php');
     <div class="container">
         <div class="header-container header">
             <div class="header-right">
-                <a class="navbar-item" href="contact.html">Contact</a>
+                <a class="navbar-item" href="contact.php">Contact</a>
             </div>
         </div>
         <!--end of navigation-->
@@ -165,12 +169,12 @@ require('dbconnect.php');
                     </span>
                         </div>
 
-                  <a href="json_map.html" class="submit_button">
+                  <a href="json_map.php" class="submit_button">
                   <input type="button" value="Visitor" class="submit_button">
                   </a>
 
                         <div id="forget_pw">
-                            <p>passwordを忘れた方は<a href="resetpw.html">こちら</a></p>
+                            <p>passwordを忘れた方は<a href="resetpw.php">こちら</a></p>
                         </div>
 
                         <div class="hr">
