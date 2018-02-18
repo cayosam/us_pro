@@ -1,5 +1,7 @@
 <?php 
-//session_start();
+session_start();
+
+
 
 require('dbconnect.php');
 
@@ -8,13 +10,14 @@ require('dbconnect.php');
     $nick_name = $_POST["nick_name"];
     $email = $_POST["email"];
     $inquiries = $_POST["inquiries"];
+    //$member_id = $_SESSION['userID'];
 
     // if($inquiries == ""){
     //   $error["inquiries"] = "blank";
     // }
 
     //if(!isset($error)){
-      $sql = "INSERT INTO `whereis_contact`(`member_id`, `nick_name`, `email`, `inquiries`, `created`) VALUES (6, '$nick_name', '$email', '$inquiries', now())";
+      $sql = "INSERT INTO `whereis_contact`(`member_id`, `nick_name`, `email`, `inquiries`, `created`) VALUES (19876, '$nick_name', '$email', '$inquiries', now())";
       $data = array($nick_name, $email, $inquiries);
       $stmt = $dbh->prepare($sql);
       $stmt->execute();
@@ -150,7 +153,7 @@ require('dbconnect.php');
                     <div class="col-sm-11">
                       <textarea name="inquiries" class="form-control" placeholder="Enter Your Message" value="" rows="10" cols="100"></textarea>
 
-                      
+
                       <!-- <?php if(isset($error["inquiries"]) && ($error["inquiries"] == "blank")){ ?>
                         <p class="error">Please Enter Your Message.</p>
                       <?php } ?> -->

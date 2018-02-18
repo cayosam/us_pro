@@ -1,45 +1,63 @@
 <?php
+session_start();
+
 //DB接続
 require('dbconnect.php');
 
 
-$sql = "SELECT * FROM `whereis_members` WHERE `id`=1"; 
+  $sql = "SELECT * FROM `whereis_members` WHERE `id`=1";
+  //$sql = "SELECT * FROM `whereis_members` WHERE `id`=".$_SESSION["id"];
 
-$stmt = $dbh->prepare($sql);
-$stmt->execute();
- 
-$login_member = $stmt->fetch(PDO::FETCH_ASSOC);
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute();
+   
+  $login_member = $stmt->fetch(PDO::FETCH_ASSOC);
+  
+  // var_dump($login_member['id']);
+  
+  $movie_sql = "SELECT * FROM `whereis_map` WHERE `member_id`=?
+                ORDER BY `created` DESC ";
+  $movie_data = array($login_member['id']);
+  $movie_stmt = $dbh->prepare($movie_sql);
+  $movie_stmt->execute($movie_data);
 
-// var_dump($login_member['id']);
+       // var_dump($movie_sql);
+       // var_dump($movie_data);
 
-$movie_sql = "SELECT * FROM `whereis_map` WHERE `member_id`=?
-              ORDER BY `created` DESC ";
-$movie_data = array($login_member['id']);
-$movie_stmt = $dbh->prepare($movie_sql);
-$movie_stmt->execute($movie_data);
+  $whereis_map = array();
+      while(1){
 
-     // var_dump($movie_sql);
-     // var_dump($movie_data);
-
-$whereis_map = array();
-    while(1){
-
-      $one_movie = $movie_stmt->fetch(PDO::FETCH_ASSOC);
-       // var_dump($one_movie);
-      if($one_movie == false){
-        break;
-      }else{
-        $whereis_map[] = $one_movie;
-     // echo '<pre>';
-     //   var_dump($one_movie);
-     // echo '</pre>';
+        $one_movie = $movie_stmt->fetch(PDO::FETCH_ASSOC);
+          //var_dump($one_movie);
+        if($one_movie == false){
+          break;
+        }else{
+          $whereis_map[] = $one_movie;
+       // echo '<pre>';
+         //var_dump($whereis_map);
+       // echo '</pre>';
+        }
       }
-    }
-     // echo '<pre>';
-     //   var_dump($one_movie);
-     // echo '</pre>';
+       // echo '<pre>';
+       //   var_dump($one_movie);
+       // echo '</pre
 
+  if(isset($_GET["id"]) && !empty($_GET["id"])){
+
+    $delete_movie = $_GET["id"];
+    
+    $del_sql = "DELETE FROM `whereis_map` WHERE `id`=".$delete_movie;
+    $del_stmt = $dbh->prepare($del_sql);
+    $del_stmt ->execute();
+
+    header("Location: profile.php");
+    exit();
+  }
+
+
+  // header("Location: profile.php?member_id.$_GET["member_id"]");
 ?>
+
 
 
 
@@ -165,7 +183,10 @@ $whereis_map = array();
                   echo $created_date;
                   ?>
                   </a><br>
-                    <input id="btn-delete" type="button" class="btn btn-default" value="削除">
+                    <!-- <input id="btn-delete" type="button" class="btn btn-default" value="削除" data-add="<?php// echo $one_movie["address"];?>"> -->
+                    <a href="profile.php?id=<?php  echo $one_movie["id"]; ?>"><input id="btn-delete" type="button" class="btn btn-default" value="削除"></a>
+
+
                   <br><br>
                 </form>
           </div>
@@ -249,16 +270,19 @@ $whereis_map = array();
 
         $(document).on('click', '#btn-delete', function(d) {
          d.preventDefault();
-          d_popup();
+
+         console.log(d);
+          d_popup("aaaa");
     });
 
-    //Post Delete 南極部分のみ
+    //Post Delete
     // 関数で一つにまとめる
-    function d_popup() {
+    function d_popup(titletext) {
 
       // optionsの中身を設定 = ボタンを押した時に出るダイアログ
       var d_options = {
-        title: "南極[2018-01-25]を削除しますか?",
+        // title: "<?php //echo $one_movie["address"]; ?>[2018-01-25]を削除しますか?",
+        title: titletext,
         icon: "info",
         buttons: {
           cancel: "Cancel", // キャンセルボタン
@@ -275,7 +299,8 @@ $whereis_map = array();
             // Okボタンが押された時の処理
             // この中でコールバック処理をしている
             swal({
-              text: "南極[2018-01-25]を削除しました",
+              // text: "<?php //echo $one_movie  ["address"]; ?>[2018-01-25]を削除しました",
+              text: titletext,
               icon: "success",
             });
         // submitされた何秒後に自動的に閉じる
