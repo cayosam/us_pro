@@ -5,18 +5,27 @@ session_start();
 require('dbconnect.php');
 
 
-  $sql = "SELECT * FROM `whereis_members` WHERE `id`=1";
+  $sql = "SELECT * FROM `whereis_members` WHERE `id`=".$_SESSION["id"];
   //$sql = "SELECT * FROM `whereis_members` WHERE `id`=".$_SESSION["id"];
 
   $stmt = $dbh->prepare($sql);
   $stmt->execute();
-   
+
   $login_member = $stmt->fetch(PDO::FETCH_ASSOC);
-  
+
   // var_dump($login_member['id']);
-  
-  $movie_sql = "SELECT * FROM `whereis_map` WHERE `member_id`=?
-                ORDER BY `created` DESC ";
+
+
+  if(isset($_POST["nick_name"]) && !empty($_POST["nick_name"]) || isset($_POST["email"]) && !empty($_POST["email"])){
+
+    $ud_profile_sql = "UPDATE `whereis_members` SET `nick_name`=?,`email`=? WHERE `id`=".$_SESSION["id"];
+    $ud_profile_data = array($_POST['nick_name'],$_POST['email']);
+    $ud_profile_stmt = $dbh->prepare($ud_profile_sql);
+    $ud_profile_stmt->execute($ud_profile_data);
+  }
+
+
+  $movie_sql = "SELECT * FROM `whereis_map` WHERE `member_id`=".$_SESSION["id"]." ORDER BY `created` DESC ";
   $movie_data = array($login_member['id']);
   $movie_stmt = $dbh->prepare($movie_sql);
   $movie_stmt->execute($movie_data);
@@ -165,7 +174,9 @@ require('dbconnect.php');
               <br><br>-->
                 <!-- <img src="http://c85c7a.medialib.glogster.com/taniaarca/media/71/71c8671f98761a43f6f50a282e20f0b82bdb1f8c/blog-images-1349202732-fondo-steve-jobs-ipad.jpg" width="100" height="100"> -->
                 <!-- <iframe width="854" height="480" src="https://www.youtube.com/embed/Kyk2pfEt_w4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
-                <iframe width="240" height="135" src="<?php echo $one_movie["movie_info"]; ?>" frameborder="0" ></iframe>
+                <!-- <iframe width="240" height="135" src="<?php// echo $one_movie["movie_info"]; ?>" frameborder="0" ></iframe> -->
+
+                <div> <?php echo $one_movie["movie_info"]; ?></div>
                 <!-- <iframe width="240" height="135" src="https://www.youtube.com/embed/Kyk2pfEt_w4?rel=0" frameborder="0" ></iframe> -->
                 <form id="delete" method="post">
                   <br>
