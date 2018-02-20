@@ -1,23 +1,3 @@
-<?php
-require('dbconnect.php');
-
-    $sql = "SELECT * FROM `whereis_members` WHERE `id`=1";
-    $stmt = $dbh->prepare($sql);
-    $stmt->execute();
-
-    $login_member = $stmt->fetch(PDO::FETCH_ASSOC);
-
-
-
-    $ud_pw_sql = "UPDATE `whereis_members` SET `password`='200' WHERE `id`=1";
-    
-    $ud_pw_data = array($_POST['newpw']):
-    $ud_pw_sql = $dbh->prepare($ud_pw_sql);
-    $ud_pw_sql->execute($ud_pw_data);
-
-
-?>
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -47,11 +27,11 @@ require('dbconnect.php');
  <a class="navbar-brand logo" href="#"></a>
     <div class=" topnav" id="myTopnav">
      
-      <a href="index.html">Logout</a>
-      <a href="contact.html">Contact</a>
-      <a class="active" href="profile.html">MyPage</a>
-      <a href="post.html">POST</a>
-      <a href="json_map.html">*MAP*</a>
+      <a href="logout.php">Logout</a>
+      <a href="contact.php">Contact</a>
+      <a class="active" href="profile.php">MyPage</a>
+      <a href="post.php">POST</a>
+      <a href="json_map.php">*MAP*</a>
       <a href="javascript:void(0);" style="font-size:30px;" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
 </header>
@@ -62,32 +42,112 @@ require('dbconnect.php');
     <div class="row">
       <div class="col-xs-6 col-xs-offset-3 content-margin-top">
         <legend class="profile_title">Change Password</legend>
-          <form id="update" method="post" action="" class="form-horizontal" role="form" enctype="multipart/form-data">
+          <form id="update" method="post" action="changepw1.php" class="form-horizontal" role="form" enctype="multipart/form-data">
             <!-- old password -->
               <div class="form-group">
-                <label class="col-sm-4 control-label">Old Password</label>
+                <label for="oldpw" class="col-sm-4 control-label">Old Password</label>
                   <div class="col-sm-8">
-                    <input type="password" name="oldpw" class="form-control" value="<?php echo $login_member["password"]; ?>">
+                    <input id="oldpw" type="password" name="oldpw" class="form-control" value="">
                   </div>
               </div> 
+                        <?php if (isset($_GET["error"]) && ($_GET["error"] == 1)) { ?>
+                        <p class="error">古いパスワードを入力してください。</p>
+                        <?php } ?>
+
+                        <?php if (isset($_GET["error"]) && ($_GET["error"] == 2)) { ?>
+                        <p class="error">古いパスワードは、4文字以上入力してください。</p>
+                        <?php } ?>  
+
+
              <!-- new password -->
               <div class="form-group">
-                <label class="col-sm-4 control-label">New Password</label>
+                <label for="newpw" class="col-sm-4 control-label">New Password</label>
                   <div class="col-sm-8">
-                    <input type="password" name="newpw" class="form-control" value="">
+                    <input id="newpw" type="password" name="newpw" class="form-control" value="">
                   </div>
               </div>
+                        <?php if (isset($_GET["error"]) && ($_GET["error"] == 3)) { ?>
+                        <p class="error">新しいパスワードを入力してください。</p>
+                        <?php } ?>
+
+                        <?php if (isset($_GET["error"]) && ($_GET["error"] == 4)) { ?>
+                        <p class="error">新しいパスワードは、4文字以上入力してください。</p>
+                        <?php } ?>  
+
               <!-- confirm password -->
               <div class="form-group">
-                <label class="col-sm-4 control-label">Confirm Password</label>
+                <label for="confirmpw" class="col-sm-4 control-label">Confirm Password</label>
                   <div class="col-sm-8">
-                    <input type="password" name="confirmpw" class="form-control" value="">
+                    <input id="confirmpw" type="password" name="confirmpw" class="form-control" value="">
                   </div>
               </div>
+
+                        <?php if (isset($_GET["error"]) && ($_GET["error"] == 5)) { ?>
+                        <p class="error">確認パスワードを入力してください。</p>
+                        <?php } ?>
+
+                        <?php if (isset($_GET["error"]) && ($_GET["error"] == 6)) { ?>
+                        <p class="error">確認パスワードは、4文字以上入力してください。</p>
+                        <?php } ?>
+
+                        <?php if (isset($_GET["error"]) && ($_GET["error"] == 7)) { ?>
+                          <p class="error">* 入力された新しいパスワードと確認パスワードが一致しません。</p>
+                        <?php } ?>
+
               <br>
               <div class="submit_button col-xs-offset-3">
                 <input id="btn-submit" type="submit" class="btn btn-default" value="Change Password">
               </div>
+                        <div class="result"></div>
+                        <script type="text/javascript">
+
+                        $(function(){
+                        //submitしたときの挙動
+                        $('#update').on('submit',function(e){
+                            e.preventDefault();
+                            //Submitが押されたら
+                            $.ajax({
+                                url:'join/changepw1.php',
+                                type:'POST',
+                                data:{
+                                    'oldpw':$('#oldpw').val(),
+                                    'newpw':$('#newpw').val(),
+                                    'confirmpw':$('#confirmpw').val(),
+                                    'save':$('#remember').val()
+                                }
+                            })
+                            .done(function(data){
+                                $('.result').html(data);
+                                console.log(data);
+                            })
+                            .fail(function(){
+                                $('.result').html(data);
+                                console.log(data);
+                            });
+                        });
+
+                        $('#ajax').on('click',function(){
+                            $.ajax({
+                                url:'join/changepw1.php',
+                                type:'POST',
+                                data:{
+                                    'oldpw':$('#oldpw').val(),
+                                    'newpw':$('#newpw').val(),
+                                    'confirmpw':$('#confirmpw').val(),
+                                    'save':$('#remember').val()
+                                }
+                            })
+                            .done(function(data){
+                                $('.result').html(data);
+                                console.log(data);
+                            })
+                            .fail(function(data){
+                                $('.result').html(data);
+                                console.log(data);
+                            });
+                        });
+                    });
+                </script>
           </form>
       </div>
     </div>
