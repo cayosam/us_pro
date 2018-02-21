@@ -944,7 +944,7 @@ div.loginpanel input {
 div.loginpanel div.txt {
   position: relative;
 }
-div.loginpanel div.txt input[type="text"],
+div.loginpanel div.txt input[type="email"],
 div.loginpanel div.txt input[type="password"] {
   color: #555;
   text-shadow: 0 1px #FFF;
@@ -957,13 +957,13 @@ div.loginpanel div.txt input[type="password"] {
   outline: none;
   background-color: rgba(255, 255, 255, 0.8);
 }
-div.loginpanel div.txt input[type="text"]:hover,
+div.loginpanel div.txt input[type="email"]:hover,
 div.loginpanel div.txt input[type="password"]:hover,
-div.loginpanel div.txt input[type="text"]:focus,
+div.loginpanel div.txt input[type="email"]:focus,
 div.loginpanel div.txt input[type="password"]:focus {
   background-color: #FFF;
 }
-div.loginpanel div.txt input[type="text"]:focus,
+div.loginpanel div.txt input[type="email"]:focus,
 div.loginpanel div.txt input[type="password"]:focus {
   border-color: #27ae60;
 }
@@ -1302,7 +1302,7 @@ div.kaiintouroku input {
 div.kaiintouroku div.txt {
   position: relative;
 }
-div.kaiintouroku div.txt input[type="text"],
+div.kaiintouroku div.txt input[type="email"],
 div.kaiintouroku div.txt input[type="password"] {
   color: #555;
   text-shadow: 0 1px #FFF;
@@ -1315,13 +1315,13 @@ div.kaiintouroku div.txt input[type="password"] {
   outline: none;
   background-color: rgba(255, 255, 255, 0.8);
 }
-div.kaiintouroku div.txt input[type="text"]:hover,
+div.kaiintouroku div.txt input[type="email"]:hover,
 div.kaiintouroku div.txt input[type="password"]:hover,
-div.kaiintouroku div.txt input[type="text"]:focus,
+div.kaiintouroku div.txt input[type="email"]:focus,
 div.kaiintouroku div.txt input[type="password"]:focus {
   background-color: #FFF;
 }
-div.kaiintouroku div.txt input[type="text"]:focus,
+div.kaiintouroku div.txt input[type="email"]:focus,
 div.kaiintouroku div.txt input[type="password"]:focus {
   border-color: #27ae60;
 }
@@ -1655,7 +1655,7 @@ div.kaiintouroku2 input {
 div.kaiintouroku2 div.txt {
   position: relative;
 }
-div.kaiintouroku2 div.txt input[type="text"],
+div.kaiintouroku2 div.txt input[type="email"],
 div.kaiintouroku2 div.txt input[type="password"] {
   color: #555;
   text-shadow: 0 1px #FFF;
@@ -1668,13 +1668,13 @@ div.kaiintouroku2 div.txt input[type="password"] {
   outline: none;
   background-color: rgba(255, 255, 255, 0.8);
 }
-div.kaiintouroku2 div.txt input[type="text"]:hover,
+div.kaiintouroku2 div.txt input[type="email"]:hover,
 div.kaiintouroku2 div.txt input[type="password"]:hover,
-div.kaiintouroku2 div.txt input[type="text"]:focus,
+div.kaiintouroku2 div.txt input[type="email"]:focus,
 div.kaiintouroku2 div.txt input[type="password"]:focus {
   background-color: #FFF;
 }
-div.kaiintouroku2 div.txt input[type="text"]:focus,
+div.kaiintouroku2 div.txt input[type="email"]:focus,
 div.kaiintouroku2 div.txt input[type="password"]:focus {
   border-color: #27ae60;
 }

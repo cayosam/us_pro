@@ -7,14 +7,6 @@ $(document).ready(function(){
   $('.kaiintouroku').hide();
   $('.kaiintouroku2').hide();
 
-  //Enterがクリックされたら
-  $('.hero-btn').click(function () {
-     
-  $('.loginpanel').show();
-  $('.hero-btn').hide();
-  
-  });
-
   //Registerがクリックされたら
     $('.entypo-user-add').click(function () {
     
@@ -33,14 +25,14 @@ $(document).ready(function(){
 //  $('.webscope').hide();
 
 //登録内容確認
-    var user = $("#user").val();
+    var user = $("#username").val();
     $("#nick_name").val(user);
 
     var email = $("#user1").val();
     $("#email").val(email);
 
     var pwd = $("#pwd1").val();
-    $("#password").val(email);
+    $("#password").val(pwd);
 
   });
 

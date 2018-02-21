@@ -30,8 +30,10 @@ var_dump($_SESSION["id"]);
     $ud_profile_stmt = $dbh->prepare($ud_profile_sql);
     $ud_profile_stmt->execute($ud_profile_data);
 
+
     header("Location: profile.php?member_id".$_GET["member_id"]);
     exit();
+
   }
 
 
@@ -181,9 +183,11 @@ var_dump($_SESSION["id"]);
           <div class="messages-top">
               <br>
 
+
                 <div> <?php echo $one_movie["movie_info"]; ?></div>
 
                 
+
                   <a><?php echo $one_movie["address"];?></a>
                   <!-- 投稿日時 -->
                   <a>
