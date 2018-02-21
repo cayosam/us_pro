@@ -3,20 +3,39 @@ session_start();
 
 //DB接続
 require('dbconnect.php');
+var_dump($_SESSION["id"]);
+
+  // if (isset($_POST["id"]) && empty($_POST["nick_name"]) && $_GET["error"] == 1) {
+    
+  //   header("Location: profile.php?error=1");
+  //   exit();
+  // }
 
 
-  $sql = "SELECT * FROM `whereis_members` WHERE `id`=1";
+  $sql = "SELECT * FROM `whereis_members` WHERE `id`=".$_SESSION["id"];
   //$sql = "SELECT * FROM `whereis_members` WHERE `id`=".$_SESSION["id"];
 
   $stmt = $dbh->prepare($sql);
   $stmt->execute();
-   
+
   $login_member = $stmt->fetch(PDO::FETCH_ASSOC);
-  
+
   // var_dump($login_member['id']);
-  
-  $movie_sql = "SELECT * FROM `whereis_map` WHERE `member_id`=?
-                ORDER BY `created` DESC ";
+
+
+  if(isset($_POST["nick_name"]) && !empty($_POST["nick_name"]) || isset($_POST["email"]) && !empty($_POST["email"])){
+
+    $ud_profile_sql = "UPDATE `whereis_members` SET `nick_name`=?,`email`=? WHERE `id`=".$_SESSION["id"];
+    $ud_profile_data = array($_POST['nick_name'],$_POST['email']);
+    $ud_profile_stmt = $dbh->prepare($ud_profile_sql);
+    $ud_profile_stmt->execute($ud_profile_data);
+
+    header("Location: profile.php?member_id".$_GET["member_id"]);
+    exit();
+  }
+
+
+  $movie_sql = "SELECT * FROM `whereis_map` WHERE `member_id`=".$_SESSION["id"]." ORDER BY `created` DESC ";
   $movie_data = array($login_member['id']);
   $movie_stmt = $dbh->prepare($movie_sql);
   $movie_stmt->execute($movie_data);
@@ -50,7 +69,7 @@ require('dbconnect.php');
     $del_stmt = $dbh->prepare($del_sql);
     $del_stmt ->execute();
 
-    header("Location: profile.php");
+    header("Location: profile.php?member_id".$_GET["member_id"]);
     exit();
   }
 
@@ -108,9 +127,9 @@ require('dbconnect.php');
         <form id="update" method="post" action="" class="form-horizontal" role="form" enctype="multipart/form-data">
           <!-- Nick Name -->
           <div class="form-group">
-            <label class="col-sm-3 control-label">Nick Name</label>
+            <label for="nick_name1" class="col-sm-3 control-label">Nick Name</label>
             <div class="col-sm-8">
-              <input type="text" name="nick_name" class="form-control" value="<?php echo $login_member["nick_name"]; ?>">
+              <input id="nick_name" type="text" name="nick_name" class="form-control" value="<?php echo $login_member["nick_name"]; ?>">
               <!-- <input type="text" name="nick_name" class="form-control" value="<?//php echo $whereis_members["nick_name"]; ?>"> -->
               <!-- <input type="text" name="nick_name" class="form-control" placeholder="例： Ryo Tamura" value=""> -->
               <!--<?php// if ((isset($error["nick_name"]) && ($error["nick_name"]) == 'blank')){ ?>-->
@@ -136,7 +155,8 @@ require('dbconnect.php');
           </div>
 
           <div class="submit_button">
-           <input id="btn-submit" type="submit" class="btn btn-default" value="Update Profile">
+           <input id="" type="submit" class="btn btn-default" value="Update Profile">
+
            <!-- <button class="preview btn btn-default" onclick="popup();"> -->
            <!-- </button> -->
           </div>
@@ -160,17 +180,10 @@ require('dbconnect.php');
         <div class="messages text-center">
           <div class="messages-top">
               <br>
-              <!--<?php //echo 01; ?>
-              <hr>
-              <br><br>-->
-                <!-- <img src="http://c85c7a.medialib.glogster.com/taniaarca/media/71/71c8671f98761a43f6f50a282e20f0b82bdb1f8c/blog-images-1349202732-fondo-steve-jobs-ipad.jpg" width="100" height="100"> -->
-                <!-- <iframe width="854" height="480" src="https://www.youtube.com/embed/Kyk2pfEt_w4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
-                <iframe width="240" height="135" src="<?php echo $one_movie["movie_info"]; ?>" frameborder="0" ></iframe>
-                <!-- <iframe width="240" height="135" src="https://www.youtube.com/embed/Kyk2pfEt_w4?rel=0" frameborder="0" ></iframe> -->
-                <form id="delete" method="post">
-                  <br>
-                  <!-- 投稿場所 -->
-                  <!-- <a>バングラデシュ</a> -->
+
+                <div> <?php echo $one_movie["movie_info"]; ?></div>
+
+                
                   <a><?php echo $one_movie["address"];?></a>
                   <!-- 投稿日時 -->
                   <a>
@@ -210,8 +223,7 @@ require('dbconnect.php');
   </div>
 
   <script src="js/navi.js"> </script>
-
-  <!-- 問題 -->
+             
   <!-- ポイント2つ -->
   <!-- form、inputにidをつける -->
   <!-- 関数でまとめる -->
@@ -324,5 +336,8 @@ require('dbconnect.php');
       });
     }
   </script>
+
+<script src="js/warning_form.js"></script>
+
 </body>
 </html>
