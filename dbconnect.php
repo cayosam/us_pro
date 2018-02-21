@@ -3,6 +3,7 @@
     // ステップ1 データーベースに接続する
     $dsn = 'mysql:dbname=us_pro;host=localhost';
 
+//
     // $user データベース接続用ユーザー名
     // $password データベース接続用ユーザーのパスワード
     $user = 'root';
