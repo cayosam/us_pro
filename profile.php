@@ -1,3 +1,81 @@
+<?php
+session_start();
+
+//DB接続
+require('dbconnect.php');
+var_dump($_SESSION["id"]);
+
+  // if (isset($_POST["id"]) && empty($_POST["nick_name"]) && $_GET["error"] == 1) {
+    
+  //   header("Location: profile.php?error=1");
+  //   exit();
+  // }
+
+
+  $sql = "SELECT * FROM `whereis_members` WHERE `id`=".$_SESSION["id"];
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute();
+
+  $login_member = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  // var_dump($login_member['id']);
+
+
+  if(isset($_POST["nick_name"]) && !empty($_POST["nick_name"]) || isset($_POST["email"]) && !empty($_POST["email"])){
+
+    $ud_profile_sql = "UPDATE `whereis_members` SET `nick_name`=?,`email`=? WHERE `id`=".$_SESSION["id"];
+    $ud_profile_data = array($_POST['nick_name'],$_POST['email']);
+    $ud_profile_stmt = $dbh->prepare($ud_profile_sql);
+    $ud_profile_stmt->execute($ud_profile_data);
+
+    header("Location: profile.php?member_id".$_GET["member_id"]);
+    exit();
+  }
+
+
+  $movie_sql = "SELECT * FROM `whereis_map` WHERE `member_id`=".$_SESSION["id"]." ORDER BY `created` DESC ";
+  $movie_data = array($login_member['id']);
+  $movie_stmt = $dbh->prepare($movie_sql);
+  $movie_stmt->execute($movie_data);
+
+       // var_dump($movie_sql);
+       // var_dump($movie_data);
+
+  $whereis_map = array();
+      while(1){
+
+        $one_movie = $movie_stmt->fetch(PDO::FETCH_ASSOC);
+          //var_dump($one_movie);
+        if($one_movie == false){
+          break;
+        }else{
+          $whereis_map[] = $one_movie;
+       // echo '<pre>';
+         //var_dump($whereis_map);
+       // echo '</pre>';
+        }
+      }
+       // echo '<pre>';
+       //   var_dump($one_movie);
+       // echo '</pre
+
+  if(isset($_GET["id"]) && !empty($_GET["id"])){
+
+    $delete_movie = $_GET["id"];
+    
+    $del_sql = "DELETE FROM `whereis_map` WHERE `id`=".$delete_movie;
+    $del_stmt = $dbh->prepare($del_sql);
+    $del_stmt ->execute();
+
+    header("Location: profile.php?member_id".$_GET["member_id"]);
+    exit();
+  }
+
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -40,18 +118,13 @@
   <div class="container">
     <div class="row">
       <div class="col-xs-6 col-xs-offset-3 content-margin-top">
-        <!--<div class="col-xs-6 col-md-offset-3 content-margin-top">-->
         <legend class="profile_title">Profile</legend>
         <form id="update" method="post" action="" class="form-horizontal" role="form" enctype="multipart/form-data">
           <!-- Nick Name -->
           <div class="form-group">
-            <label class="col-sm-3 control-label">Nick Name</label>
+            <label for="nick_name1" class="col-sm-3 control-label">Nick Name</label>
             <div class="col-sm-8">
-              <input type="text" name="nick_name" class="form-control" value="Ryo Tamura">
-              <!-- <input type="text" name="nick_name" class="form-control" placeholder="例： Ryo Tamura" value=""> -->
-              <!--<?php// if ((isset($error["nick_name"]) && ($error["nick_name"]) == 'blank')){ ?>-->
-              <!--<p class="error">* Please Enter Your Nick Name</p>-->
-              <!--<?php// } ?>-->
+              <input id="nick_name" type="text" name="nick_name" class="form-control" value="<?php echo $login_member["nick_name"]; ?>">
             </div>
           </div>
 
@@ -59,20 +132,13 @@
           <div class="form-group">
             <label class="col-sm-3 control-label">E-mail</label>
             <div class="col-sm-8">
-              <input type="email" name="email" class="form-control" value="ryotamura@nexseed.com">
-              <!-- <input type="email" name="email" class="form-control" placeholder="例： ryotamura@nexseed.com" value=""> -->
-              <!--<?php //if ((isset($error["email"]) && ($error["email"]) == 'blank')){ ?>-->
-              <!--<p class="error">* Emailを入力してください。</p>-->
-              <!--<?php// } ?>-->
-
-               <!--<?php //if ((isset($error["email"]) && ($error["email"]) == 'duplicated')){ ?>-->
-              <!--<p class="error">* Please Enter Your Nick Name</p>-->
-              <!--<?php //} ?>-->
+              <input type="email" name="email" class="form-control" value="<?php echo $login_member["email"]; ?>">
             </div>
           </div>
 
           <div class="submit_button">
-           <input id="btn-submit" type="submit" class="btn btn-default" value="Update Profile">
+           <input id="" type="submit" class="btn btn-default" value="Update Profile">
+
            <!-- <button class="preview btn btn-default" onclick="popup();"> -->
            <!-- </button> -->
           </div>
@@ -90,76 +156,36 @@
 <!-- 連想配列のキーがカラム名と同じものにテーブルのカラム名と同じものをかく予定）-->
 <div class="container">
   <div class="row">
-    <div class="messages-table">
-      <div class="messages text-center">
-        <div class="messages-top">
-              <br>
-              <!--<?php //echo 01; ?>
-              <hr>
-              <br><br>-->
-                <!-- <img src="http://c85c7a.medialib.glogster.com/taniaarca/media/71/71c8671f98761a43f6f50a282e20f0b82bdb1f8c/blog-images-1349202732-fondo-steve-jobs-ipad.jpg" width="100" height="100"> -->
-                <!-- <iframe width="854" height="480" src="https://www.youtube.com/embed/jfe3TA4-PgU" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
-                <iframe width="240" height="135" src="https://www.youtube.com/embed/jfe3TA4-PgU?ewl=0" frameborder="0"></iframe>
-                  <form id="delete" method="post">
-                    <br>
-                    <!-- 投稿場所 -->
-                    <a href="#">南極</a>
-                    <!-- 投稿日時 -->
-                    <a href="#">[2018-01-25]</a><br>
-                    <input id="btn-delete" type="button" class="btn btn-default" value="削除">
-                    <!-- <input id="btn-delete" type="button" value="削除" onclick="window.confirm('こちらの投稿を削除しますがよろしいですか？')"> -->
-                    <br><br>
-                  </form>
-        </div>
-      </div>
-    </div>
-
+      <?php foreach ($whereis_map as $one_movie) { ?>
       <div class="messages-table">
         <div class="messages text-center">
           <div class="messages-top">
               <br>
-              <!--<?php //echo 01; ?>
-              <hr>
-              <br><br>-->
-                <!-- <img src="http://c85c7a.medialib.glogster.com/taniaarca/media/71/71c8671f98761a43f6f50a282e20f0b82bdb1f8c/blog-images-1349202732-fondo-steve-jobs-ipad.jpg" width="100" height="100"> -->
-                <!-- <iframe width="854" height="480" src="https://www.youtube.com/embed/Kyk2pfEt_w4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
-                <iframe width="240" height="135" src="https://www.youtube.com/embed/Kyk2pfEt_w4?rel=0" frameborder="0" ></iframe>
-              <form method="post">
-                  <br>
-                  <!-- 投稿場所 -->
-                  <a href="#">バングラデシュ</a>
+
+                <div> <?php echo $one_movie["movie_info"]; ?></div>
+
+                
+                  <a><?php echo $one_movie["address"];?></a>
                   <!-- 投稿日時 -->
-                  <a href="#">[2018-01-25]</a><br>
-                  <input type="button" value="削除" onclick="window.confirm('こちらの投稿を削除しますがよろしいですか？')">
+                  <a>
+                  <?php
+                  $created_date = $one_movie["created"];
+                  //strtotime 文字型のデータを日時型に変換できる
+                  //(Y年m月d日 と記述することも可能)(H24時間表記、h12時間表記)
+                  $created_date = date("Y-m-d H:i",strtotime($created_date));
+                  echo $created_date;
+                  ?>
+                  </a><br>
+                    <input id="btn-delete<?php echo $one_movie["id"]; ?>" type="button" class="btn btn-default delete" value="削除" data-add="<?php echo $one_movie["address"];?>">
+                    <!-- <a href="profile.php?id=<?php  //echo $one_movie["id"]; ?>"><input id="btn-delete" type="button" class="btn btn-default" value="削除"></a> -->
+
+
                   <br><br>
-              </form>
+                </form>
           </div>
         </div>
       </div>
-
-
-      <div class="messages-table">
-        <div class="messages text-center">
-          <div class="messages-top">
-              <br>
-              <!--<?php //echo 01; ?>
-              <hr>
-              <br><br>-->
-                <!-- <img src="http://c85c7a.medialib.glogster.com/taniaarca/media/71/71c8671f98761a43f6f50a282e20f0b82bdb1f8c/blog-images-1349202732-fondo-steve-jobs-ipad.jpg" width="100" height="100"> -->
-                <!-- <iframe width="854" height="480" src="https://www.youtube.com/embed/g4rB2hORVes" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
-                <iframe width="240" height="135" src="https://www.youtube.com/embed/g4rB2hORVes?rel=0" frameborder="0" ></iframe>
-              <form method="post">
-                  <br>
-                  <!-- 投稿場所 -->
-                  <a href="#">セブ</a>
-                  <!-- 投稿日時 -->
-                  <a href="#">[2018-01-25]</a><br>
-                  <input type="button" value="削除" onclick="window.confirm('こちらの投稿を削除しますがよろしいですか？')">
-                  <br><br>
-              </form>
-          </div>
-        </div>
-      </div>
+      <?php }?>
   </div>
 </div>
 
@@ -177,8 +203,7 @@
   </div>
 
   <script src="js/navi.js"> </script>
-
-  <!-- 問題 -->
+             
   <!-- ポイント2つ -->
   <!-- form、inputにidをつける -->
   <!-- 関数でまとめる -->
@@ -235,18 +260,22 @@
       });
     }
 
-        $(document).on('click', '#btn-delete', function(d) {
+        $(document).on('click', '.btn, .btn-default, .delete', function(d) {
          d.preventDefault();
-          d_popup();
+
+         console.log(d);
+         console.log(d.target.id);
+          d_popup($('#'+d.target.id).data('add'));
     });
 
-    //Post Delete 南極部分のみ
+    //Post Delete
     // 関数で一つにまとめる
-    function d_popup() {
+    function d_popup(titletext) {
 
       // optionsの中身を設定 = ボタンを押した時に出るダイアログ
       var d_options = {
-        title: "南極[2018-01-25]を削除しますか?",
+        // title: "<?php //echo $one_movie["address"]; ?>[2018-01-25]を削除しますか?",
+        title: titletext,
         icon: "info",
         buttons: {
           cancel: "Cancel", // キャンセルボタン
@@ -263,7 +292,8 @@
             // Okボタンが押された時の処理
             // この中でコールバック処理をしている
             swal({
-              text: "南極[2018-01-25]を削除しました",
+              // text: "<?php //echo $one_movie  ["address"]; ?>[2018-01-25]を削除しました",
+              text: titletext,
               icon: "success",
             });
         // submitされた何秒後に自動的に閉じる
@@ -287,5 +317,8 @@
       });
     }
   </script>
+
+<script src="js/warning_form.js"></script>
+
 </body>
 </html>
