@@ -1,23 +1,3 @@
-<?php
-require('dbconnect.php');
-
-    $sql = "SELECT * FROM `whereis_members` WHERE `id`=1";
-    $stmt = $dbh->prepare($sql);
-    $stmt->execute();
-
-    $login_member = $stmt->fetch(PDO::FETCH_ASSOC);
-
-
-
-    $ud_pw_sql = "UPDATE `whereis_members` SET `password`='200' WHERE `id`=1";
-    if(){}
-    
-    $ud_pw_data = array($_POST['newpw']):
-    $ud_pw_sql = $dbh->prepare($ud_pw_sql);
-    $ud_pw_sql->execute($ud_pw_data);
-
-
-?>
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -48,11 +28,7 @@ require('dbconnect.php');
  <a class="navbar-brand logo" href="#"></a>
     <div class=" topnav" id="myTopnav">
      
-      <a href="index.html">Logout</a>
-      <a href="contact.html">Contact</a>
-      <a class="active" href="profile.html">MyPage</a>
-      <a href="post.html">POST</a>
-      <a href="json_map.html">*MAP*</a>
+
       <a href="javascript:void(0);" style="font-size:30px;" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
 </header>
@@ -63,32 +39,12 @@ require('dbconnect.php');
     <div class="row">
       <div class="col-xs-6 col-xs-offset-3 content-margin-top">
         <legend class="profile_title">Change Password</legend>
-          <form id="update" method="post" action="" class="form-horizontal" role="form" enctype="multipart/form-data">
-            <!-- old password -->
-              <div class="form-group">
-                <label class="col-sm-4 control-label">Old Password</label>
-                  <div class="col-sm-8">
-                    <input type="password" name="oldpw" class="form-control" value="<?php echo $login_member["password"]; ?>">
-                  </div>
-              </div> 
-             <!-- new password -->
-              <div class="form-group">
-                <label class="col-sm-4 control-label">New Password</label>
-                  <div class="col-sm-8">
-                    <input type="password" name="newpw" class="form-control" value="">
-                  </div>
-              </div>
-              <!-- confirm password -->
-              <div class="form-group">
-                <label class="col-sm-4 control-label">Confirm Password</label>
-                  <div class="col-sm-8">
-                    <input type="password" name="confirmpw" class="form-control" value="">
-                  </div>
-              </div>
+
               <br>
               <div class="submit_button col-xs-offset-3">
                 <input id="btn-submit" type="submit" class="btn btn-default" value="Change Password">
               </div>
+
           </form>
       </div>
     </div>
