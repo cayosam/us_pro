@@ -6,7 +6,7 @@
 // $user　DB接続用ユーザ名
 // $password　DB接続用ユーザのPW
   $user = 'root';
-  $password='';
+  $password='root';
 
   
   // DB接続オブジェクト
