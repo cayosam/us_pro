@@ -17,7 +17,10 @@ body {
     bottom:0;
 }*/
 
-
+iframe {
+  width: 240px !important;
+  height: 135px !important;
+}
 
 .profile_title{
   text-align : center ;
