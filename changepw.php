@@ -1,4 +1,7 @@
+<<<<<<< HEAD
+=======
 
+>>>>>>> f946de579b06e0f2e74360b4eb8e106266f931f4
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -28,7 +31,15 @@
  <a class="navbar-brand logo" href="#"></a>
     <div class=" topnav" id="myTopnav">
      
+<<<<<<< HEAD
+      <a href="logout.php">Logout</a>
+      <a href="contact.php">Contact</a>
+      <a class="active" href="profile.php">MyPage</a>
+      <a href="post.php">POST</a>
+      <a href="json_map.php">*MAP*</a>
+=======
 
+>>>>>>> f946de579b06e0f2e74360b4eb8e106266f931f4
       <a href="javascript:void(0);" style="font-size:30px;" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
 </header>
@@ -39,12 +50,120 @@
     <div class="row">
       <div class="col-xs-6 col-xs-offset-3 content-margin-top">
         <legend class="profile_title">Change Password</legend>
+<<<<<<< HEAD
+          <form id="update" method="post" action="changepw1.php" class="form-horizontal" role="form" enctype="multipart/form-data">
+            <!-- old password -->
+              <div class="form-group">
+                <label for="oldpw" class="col-sm-4 control-label">Old Password</label>
+                  <div class="col-sm-8">
+                    <input id="oldpw" type="password" name="oldpw" class="form-control" value="">
+                  </div>
+              </div> 
+                        <?php if (isset($_GET["error"]) && ($_GET["error"] == 1)) { ?>
+                        <p class="error">古いパスワードを入力してください。</p>
+                        <?php } ?>
 
+                        <?php if (isset($_GET["error"]) && ($_GET["error"] == 2)) { ?>
+                        <p class="error">古いパスワードは、4文字以上入力してください。</p>
+                        <?php } ?>  
+
+
+             <!-- new password -->
+              <div class="form-group">
+                <label for="newpw" class="col-sm-4 control-label">New Password</label>
+                  <div class="col-sm-8">
+                    <input id="newpw" type="password" name="newpw" class="form-control" value="">
+                  </div>
+              </div>
+                        <?php if (isset($_GET["error"]) && ($_GET["error"] == 3)) { ?>
+                        <p class="error">新しいパスワードを入力してください。</p>
+                        <?php } ?>
+
+                        <?php if (isset($_GET["error"]) && ($_GET["error"] == 4)) { ?>
+                        <p class="error">新しいパスワードは、4文字以上入力してください。</p>
+                        <?php } ?>  
+
+              <!-- confirm password -->
+              <div class="form-group">
+                <label for="confirmpw" class="col-sm-4 control-label">Confirm Password</label>
+                  <div class="col-sm-8">
+                    <input id="confirmpw" type="password" name="confirmpw" class="form-control" value="">
+                  </div>
+              </div>
+
+                        <?php if (isset($_GET["error"]) && ($_GET["error"] == 5)) { ?>
+                        <p class="error">確認パスワードを入力してください。</p>
+                        <?php } ?>
+
+                        <?php if (isset($_GET["error"]) && ($_GET["error"] == 6)) { ?>
+                        <p class="error">確認パスワードは、4文字以上入力してください。</p>
+                        <?php } ?>
+
+                        <?php if (isset($_GET["error"]) && ($_GET["error"] == 7)) { ?>
+                          <p class="error">* 入力された新しいパスワードと確認パスワードが一致しません。</p>
+                        <?php } ?>
+
+=======
+
+>>>>>>> f946de579b06e0f2e74360b4eb8e106266f931f4
               <br>
               <div class="submit_button col-xs-offset-3">
                 <input id="btn-submit" type="submit" class="btn btn-default" value="Change Password">
               </div>
+<<<<<<< HEAD
+                        <div class="result"></div>
+                        <script type="text/javascript">
 
+                        $(function(){
+                        //submitしたときの挙動
+                        $('#update').on('submit',function(e){
+                            e.preventDefault();
+                            //Submitが押されたら
+                            $.ajax({
+                                url:'join/changepw1.php',
+                                type:'POST',
+                                data:{
+                                    'oldpw':$('#oldpw').val(),
+                                    'newpw':$('#newpw').val(),
+                                    'confirmpw':$('#confirmpw').val(),
+                                    'save':$('#remember').val()
+                                }
+                            })
+                            .done(function(data){
+                                $('.result').html(data);
+                                console.log(data);
+                            })
+                            .fail(function(){
+                                $('.result').html(data);
+                                console.log(data);
+                            });
+                        });
+
+                        $('#ajax').on('click',function(){
+                            $.ajax({
+                                url:'join/changepw1.php',
+                                type:'POST',
+                                data:{
+                                    'oldpw':$('#oldpw').val(),
+                                    'newpw':$('#newpw').val(),
+                                    'confirmpw':$('#confirmpw').val(),
+                                    'save':$('#remember').val()
+                                }
+                            })
+                            .done(function(data){
+                                $('.result').html(data);
+                                console.log(data);
+                            })
+                            .fail(function(data){
+                                $('.result').html(data);
+                                console.log(data);
+                            });
+                        });
+                    });
+                </script>
+=======
+
+>>>>>>> f946de579b06e0f2e74360b4eb8e106266f931f4
           </form>
       </div>
     </div>
