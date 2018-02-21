@@ -13,8 +13,6 @@ var_dump($_SESSION["id"]);
 
 
   $sql = "SELECT * FROM `whereis_members` WHERE `id`=".$_SESSION["id"];
-  //$sql = "SELECT * FROM `whereis_members` WHERE `id`=".$_SESSION["id"];
-
   $stmt = $dbh->prepare($sql);
   $stmt->execute();
 
@@ -30,10 +28,8 @@ var_dump($_SESSION["id"]);
     $ud_profile_stmt = $dbh->prepare($ud_profile_sql);
     $ud_profile_stmt->execute($ud_profile_data);
 
-
     header("Location: profile.php?member_id".$_GET["member_id"]);
     exit();
-
   }
 
 
@@ -75,8 +71,6 @@ var_dump($_SESSION["id"]);
     exit();
   }
 
-
-  // header("Location: profile.php?member_id.$_GET["member_id"]");
 ?>
 
 
@@ -124,7 +118,6 @@ var_dump($_SESSION["id"]);
   <div class="container">
     <div class="row">
       <div class="col-xs-6 col-xs-offset-3 content-margin-top">
-        <!--<div class="col-xs-6 col-md-offset-3 content-margin-top">-->
         <legend class="profile_title">Profile</legend>
         <form id="update" method="post" action="" class="form-horizontal" role="form" enctype="multipart/form-data">
           <!-- Nick Name -->
@@ -132,11 +125,6 @@ var_dump($_SESSION["id"]);
             <label for="nick_name1" class="col-sm-3 control-label">Nick Name</label>
             <div class="col-sm-8">
               <input id="nick_name" type="text" name="nick_name" class="form-control" value="<?php echo $login_member["nick_name"]; ?>">
-              <!-- <input type="text" name="nick_name" class="form-control" value="<?//php echo $whereis_members["nick_name"]; ?>"> -->
-              <!-- <input type="text" name="nick_name" class="form-control" placeholder="例： Ryo Tamura" value=""> -->
-              <!--<?php// if ((isset($error["nick_name"]) && ($error["nick_name"]) == 'blank')){ ?>-->
-              <!--<p class="error">* Please Enter Your Nick Name</p>-->
-              <!--<?php// } ?>-->
             </div>
           </div>
 
@@ -145,14 +133,6 @@ var_dump($_SESSION["id"]);
             <label class="col-sm-3 control-label">E-mail</label>
             <div class="col-sm-8">
               <input type="email" name="email" class="form-control" value="<?php echo $login_member["email"]; ?>">
-              <!-- <input type="email" name="email" class="form-control" placeholder="例： ryotamura@nexseed.com" value=""> -->
-              <!--<?php //if ((isset($error["email"]) && ($error["email"]) == 'blank')){ ?>-->
-              <!--<p class="error">* Emailを入力してください。</p>-->
-              <!--<?php// } ?>-->
-
-               <!--<?php //if ((isset($error["email"]) && ($error["email"]) == 'duplicated')){ ?>-->
-              <!--<p class="error">* Please Enter Your Nick Name</p>-->
-              <!--<?php //} ?>-->
             </div>
           </div>
 
@@ -177,21 +157,17 @@ var_dump($_SESSION["id"]);
 <div class="container">
   <div class="row">
       <?php foreach ($whereis_map as $one_movie) { ?>
-      <!-- <?php //for($i=0; $i < count($whereis_map); $i++) { ?> -->
       <div class="messages-table">
         <div class="messages text-center">
           <div class="messages-top">
               <br>
 
-
                 <div> <?php echo $one_movie["movie_info"]; ?></div>
 
                 
-
                   <a><?php echo $one_movie["address"];?></a>
                   <!-- 投稿日時 -->
                   <a>
-                  <!-- <?php// echo $whereis_map["created"];?> -->
                   <?php
                   $created_date = $one_movie["created"];
                   //strtotime 文字型のデータを日時型に変換できる
@@ -200,8 +176,8 @@ var_dump($_SESSION["id"]);
                   echo $created_date;
                   ?>
                   </a><br>
-                    <!-- <input id="btn-delete" type="button" class="btn btn-default" value="削除" data-add="<?php// echo $one_movie["address"];?>"> -->
-                    <a href="profile.php?id=<?php  echo $one_movie["id"]; ?>"><input id="btn-delete" type="button" class="btn btn-default" value="削除"></a>
+                    <input id="btn-delete"<?php echo $one_movie["id"]; ?> type="button" class="btn btn-default delete" value="削除" data-add="<?php echo $one_movie["address"];?>">
+                    <!-- <a href="profile.php?id=<?php  echo $one_movie["id"]; ?>"><input id="btn-delete" type="button" class="btn btn-default" value="削除"></a> -->
 
 
                   <br><br>
