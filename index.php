@@ -5,6 +5,7 @@
 require('dbconnect.php');
 
 //test
+//test2
 
 //クッキー情報が存在してたら（自動ログイン）
 // $_POSTにログイン情報を保存します
