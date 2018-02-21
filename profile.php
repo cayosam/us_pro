@@ -176,8 +176,8 @@ var_dump($_SESSION["id"]);
                   echo $created_date;
                   ?>
                   </a><br>
-                    <input id="btn-delete"<?php echo $one_movie["id"]; ?> type="button" class="btn btn-default delete" value="削除" data-add="<?php echo $one_movie["address"];?>">
-                    <!-- <a href="profile.php?id=<?php  echo $one_movie["id"]; ?>"><input id="btn-delete" type="button" class="btn btn-default" value="削除"></a> -->
+                    <input id="btn-delete<?php echo $one_movie["id"]; ?>" type="button" class="btn btn-default delete" value="削除" data-add="<?php echo $one_movie["address"];?>">
+                    <!-- <a href="profile.php?id=<?php  //echo $one_movie["id"]; ?>"><input id="btn-delete" type="button" class="btn btn-default" value="削除"></a> -->
 
 
                   <br><br>
@@ -260,11 +260,12 @@ var_dump($_SESSION["id"]);
       });
     }
 
-        $(document).on('click', '#btn-delete', function(d) {
+        $(document).on('click', '.btn, .btn-default, .delete', function(d) {
          d.preventDefault();
 
          console.log(d);
-          d_popup("aaaa");
+         console.log(d.target.id);
+          d_popup($('#'+d.target.id).data('add'));
     });
 
     //Post Delete

@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> f946de579b06e0f2e74360b4eb8e106266f931f4
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -27,11 +31,15 @@
  <a class="navbar-brand logo" href="#"></a>
     <div class=" topnav" id="myTopnav">
      
+<<<<<<< HEAD
       <a href="logout.php">Logout</a>
       <a href="contact.php">Contact</a>
       <a class="active" href="profile.php">MyPage</a>
       <a href="post.php">POST</a>
       <a href="json_map.php">*MAP*</a>
+=======
+
+>>>>>>> f946de579b06e0f2e74360b4eb8e106266f931f4
       <a href="javascript:void(0);" style="font-size:30px;" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
 </header>
@@ -42,6 +50,7 @@
     <div class="row">
       <div class="col-xs-6 col-xs-offset-3 content-margin-top">
         <legend class="profile_title">Change Password</legend>
+<<<<<<< HEAD
           <form id="update" method="post" action="changepw1.php" class="form-horizontal" role="form" enctype="multipart/form-data">
             <!-- old password -->
               <div class="form-group">
@@ -94,10 +103,14 @@
                           <p class="error">* 入力された新しいパスワードと確認パスワードが一致しません。</p>
                         <?php } ?>
 
+=======
+
+>>>>>>> f946de579b06e0f2e74360b4eb8e106266f931f4
               <br>
               <div class="submit_button col-xs-offset-3">
                 <input id="btn-submit" type="submit" class="btn btn-default" value="Change Password">
               </div>
+<<<<<<< HEAD
                         <div class="result"></div>
                         <script type="text/javascript">
 
@@ -148,6 +161,9 @@
                         });
                     });
                 </script>
+=======
+
+>>>>>>> f946de579b06e0f2e74360b4eb8e106266f931f4
           </form>
       </div>
     </div>
