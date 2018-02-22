@@ -3,7 +3,7 @@ session_start();
 
 //DB接続
 require('dbconnect.php');
-var_dump($_SESSION["id"]);
+//var_dump($_SESSION["id"]);
 
   // if (isset($_POST["id"]) && empty($_POST["nick_name"]) && $_GET["error"] == 1) {
     
@@ -28,7 +28,7 @@ var_dump($_SESSION["id"]);
     $ud_profile_stmt = $dbh->prepare($ud_profile_sql);
     $ud_profile_stmt->execute($ud_profile_data);
 
-    header("Location: profile.php?member_id".$_GET["member_id"]);
+    header("Location: profile.php?member_id".$_SESSION["id"]);
     exit();
   }
 
@@ -50,25 +50,23 @@ var_dump($_SESSION["id"]);
           break;
         }else{
           $whereis_map[] = $one_movie;
-       // echo '<pre>';
-         //var_dump($whereis_map);
-       // echo '</pre>';
-        }
-      }
-       // echo '<pre>';
-       //   var_dump($one_movie);
-       // echo '</pre
 
-  if(isset($_GET["id"]) && !empty($_GET["id"])){
+  if(isset($_POST["delete"])){
 
-    $delete_movie = $_GET["id"];
-    
+    $delete_movie = $one_movie["id"];
+
+    var_dump($delete_movie);
+
     $del_sql = "DELETE FROM `whereis_map` WHERE `id`=".$delete_movie;
     $del_stmt = $dbh->prepare($del_sql);
     $del_stmt ->execute();
 
-    header("Location: profile.php?member_id".$_GET["member_id"]);
+    header("Location: profile.php?member_id".$_SESSION["id"]);
     exit();
+  }
+
+
+  }
   }
 
 ?>
@@ -119,7 +117,7 @@ var_dump($_SESSION["id"]);
     <div class="row">
       <div class="col-xs-6 col-xs-offset-3 content-margin-top">
         <legend class="profile_title">Profile</legend>
-        <form id="update" method="post" action="" class="form-horizontal" role="form" enctype="multipart/form-data">
+        <form id="" method="post" action="" class="form-horizontal" role="form" enctype="multipart/form-data">
           <!-- Nick Name -->
           <div class="form-group">
             <label for="nick_name1" class="col-sm-3 control-label">Nick Name</label>
@@ -137,7 +135,7 @@ var_dump($_SESSION["id"]);
           </div>
 
           <div class="submit_button">
-           <input id="" type="submit" class="btn btn-default" value="Update Profile">
+           <input id="update" type="submit" class="btn btn-default" value="Update Profile">
 
            <!-- <button class="preview btn btn-default" onclick="popup();"> -->
            <!-- </button> -->
@@ -164,7 +162,7 @@ var_dump($_SESSION["id"]);
 
                 <div> <?php echo $one_movie["movie_info"]; ?></div>
 
-                
+                <form id="delete" method="post">
                   <a><?php echo $one_movie["address"];?></a>
                   <!-- 投稿日時 -->
                   <a>
@@ -176,9 +174,16 @@ var_dump($_SESSION["id"]);
                   echo $created_date;
                   ?>
                   </a><br>
-                    <input id="btn-delete<?php echo $one_movie["id"]; ?>" type="button" class="btn btn-default delete" value="削除" data-add="<?php echo $one_movie["address"];?>">
-                    <!-- <a href="profile.php?id=<?php  //echo $one_movie["id"]; ?>"><input id="btn-delete" type="button" class="btn btn-default" value="削除"></a> -->
+                  <!-- <?php //if(isset($_GET["id"]) && !empty($_GET["id"])){}?> -->
+                   <!--  <input id="btn-delete" name="delete" type="submit" class="btn btn-default delete" value="削除"  data-add="<?php echo $one_movie["<address></address>"];?>"> -->
 
+
+
+
+
+                    <input name="delete" type="submit" class="delete" value="削除">
+
+                    <!-- <a href="profile.php?id=<?php // echo $one_movie["id"]; ?>"><input id="btn-delete" type="button" class="btn btn-default" value="削除"></a> -->
 
                   <br><br>
                 </form>
@@ -203,120 +208,11 @@ var_dump($_SESSION["id"]);
   </div>
 
   <script src="js/navi.js"> </script>
-             
+
   <!-- ポイント2つ -->
   <!-- form、inputにidをつける -->
   <!-- 関数でまとめる -->
   <!-- Change Profile -->
-  <script>
-    $(document).on('click', '#btn-submit', function(e) {
-         e.preventDefault();
-          popup();
-    });
-
-    // 関数で一つにまとめる
-    function popup() {
-
-      // optionsの中身を設定 = ボタンを押した時に出るダイアログ
-      var options = {
-        title: "プロフィール情報を変更しますか",
-        icon: "info",
-        buttons: {
-          cancel: "Cancel", // キャンセルボタン
-          ok: true
-        }
-      };
-
-      // この関数がコールバック処理をしている
-      swal(options)
-        // then() メソッドを使えばクリックした時の値が取れます
-        .then(function(val) {
-          console.log(val)
-          if (val) {
-            // Okボタンが押された時の処理
-            // この中でコールバック処理をしている
-            swal({
-              text: "プロフィール情報が変更されました",
-              icon: "success",
-            });
-        // submitされた何秒後に自動的に閉じる
-              setTimeout(
-                function(){
-                  // ()の中はformのidからきている #myform #はidを指定する時に使い、. はclassを指定する時に使う
-               $('#update').submit();
-              },2000);
-
-          } else {
-            // キャンセルボタンを押した時の処理
-            // この中でコールバック処理をしている
-            // valには 'null' が返ってきます
-            swal({
-              text: "キャンセルされました",
-              icon: "warning",
-              buttons: false,
-              timer: 2500 // 2.5秒後に自動的に閉じる
-            });
-          }
-      });
-    }
-
-        $(document).on('click', '.btn, .btn-default, .delete', function(d) {
-         d.preventDefault();
-
-         console.log(d);
-         console.log(d.target.id);
-          d_popup($('#'+d.target.id).data('add'));
-    });
-
-    //Post Delete
-    // 関数で一つにまとめる
-    function d_popup(titletext) {
-
-      // optionsの中身を設定 = ボタンを押した時に出るダイアログ
-      var d_options = {
-        // title: "<?php //echo $one_movie["address"]; ?>[2018-01-25]を削除しますか?",
-        title: titletext,
-        icon: "info",
-        buttons: {
-          cancel: "Cancel", // キャンセルボタン
-          ok: true
-        }
-      };
-
-      // この関数がコールバック処理をしている
-      swal(d_options)
-        // then() メソッドを使えばクリックした時の値が取れます
-        .then(function(del) {
-          console.log(del)
-          if (del) {
-            // Okボタンが押された時の処理
-            // この中でコールバック処理をしている
-            swal({
-              // text: "<?php //echo $one_movie  ["address"]; ?>[2018-01-25]を削除しました",
-              text: titletext,
-              icon: "success",
-            });
-        // submitされた何秒後に自動的に閉じる
-              setTimeout(
-                function(){
-                  // ()の中はformのidからきている #myform #はidを指定する時に使い、. はclassを指定する時に使う
-               $('#delete').submit();
-              },2000);
-
-          } else {
-            // キャンセルボタンを押した時の処理
-            // この中でコールバック処理をしている
-            // valには 'null' が返ってきます
-            swal({
-              text: "キャンセルされました",
-              icon: "warning",
-              buttons: false,
-              timer: 2500 // 2.5秒後に自動的に閉じる
-            });
-          }
-      });
-    }
-  </script>
 
 <script src="js/warning_form.js"></script>
 
