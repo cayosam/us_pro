@@ -3,6 +3,9 @@
 
 // DBに接続
 require('dbconnect.php');
+//var_dump($_SESSION["id"]);
+
+
 
 //test
 //test2

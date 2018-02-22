@@ -1,8 +1,6 @@
 <?php 
 header('Content-type: text/plain; charset= UTF-8');
 
-require('../dbconnect.php');
-
 //変数の設定
  $redirect_flag = 0;
 
@@ -41,6 +39,44 @@ require('../dbconnect.php');
     $redirect_flag = 7;
     }
 
+?>
+
+
+
+
+<?php
+session_start();
+
+//DB接続
+require('dbconnect.php');
+var_dump($_SESSION["id"]);
+
+  // if (isset($_POST["id"]) && empty($_POST["nick_name"]) && $_GET["error"] == 1) {
+    
+  //   header("Location: profile.php?error=1");
+  //   exit();
+  // }
+
+
+  $sql = "SELECT * FROM `whereis_members` WHERE `id`=".$_SESSION["id"];
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute();
+
+  $login_member = $stmt->fetch(PDO::FETCH_ASSOC);
+
+  // var_dump($login_member['id']);
+
+
+  if(isset($_POST["oldpw"]) && !empty($_POST["newpw"] && !empty($_POST["confirmpw"]))) {
+
+    $ud_pwd_sql = "UPDATE `whereis_members` SET `password`=? WHERE `id`=".$_SESSION["id"];
+    $ud_pwd_data = array($_POST['nick_name'],$_POST['email']);
+    $ud_pwd_stmt = $dbh->prepare($ud_pwd_sql);
+    $ud_pwd_stmt->execute($ud_pwd_data);
+
+    header("Location: changepwd.php?member_id".$_GET["member_id"]);
+    exit();
+  }
 
  ?>
 
