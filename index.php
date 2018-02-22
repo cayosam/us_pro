@@ -4,6 +4,8 @@
 // DBに接続
 require('dbconnect.php');
 
+//test
+//test2
 
 //クッキー情報が存在してたら（自動ログイン）
 // $_POSTにログイン情報を保存します
@@ -21,7 +23,7 @@ if (isset($_COOKIE["email"]) && !empty($_COOKIE["email"])){
 
   // 入力チェック
 
-  //ニックネームが空っぽだったら$errorというエラー情報を格納する変数に
+  //ニックネームが空っぽだったら$errorsというエラー情報を格納する変数に
 
   // emailはblankだったというマークを保存しておく
     if ($_POST["login_email"] == '') {
@@ -34,7 +36,7 @@ if (isset($_COOKIE["email"]) && !empty($_COOKIE["email"])){
   // stren文字の長さ（文字数）を数字で返してくれる関数
     if ($_POST["login_password"] == '') {
       $error["login_password"] = 'blank';
-    }else if (strlen($_POST["login_password"]) < 8) {
+    }else if (strlen($_POST["login_password"]) < 4) {
       $error["login_password"] = 'length';
     }
 
@@ -155,7 +157,7 @@ if (isset($_COOKIE["email"]) && !empty($_COOKIE["email"])){
                   <?php } ?>
 
                   <?php if ((isset($error["login_password"])) && ($error["login_password"]== 'length')) { ?>
-                   <p class="error">* パスワードは、8文字以上入力してください。</p>
+                   <p class="error">* パスワードは、4文字以上入力してください。</p>
                   <?php } ?>
 
                   <?php if (isset($error["login"]) == 'failed') { ?>
@@ -239,7 +241,7 @@ if (isset($_COOKIE["email"]) && !empty($_COOKIE["email"])){
                         <?php } ?>
 
                         <?php if (isset($_GET["error"]) && ($_GET["error"] == 6)) { ?>
-                        <p class="error">パスワードは、8文字以上入力してください。</p>
+                        <p class="error">パスワードは、4文字以上入力してください。</p>
                         <?php } ?>                        
 
                         <div class="txt">
