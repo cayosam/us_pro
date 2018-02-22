@@ -59,11 +59,11 @@ var_dump($_SESSION["id"]);
        <a class="navbar-brand logo" href="#"></a>
        
     <div class=" topnav" id="myTopnav">
-      <a href="#">Logout</a>
-       <a href="#">Contact</a>
-       <a href="#">MyPage</a>
-       <a href="#">POST</a>
-       <a class="active" href="#">*MAP*</a>
+      <a href="logout.php">Logout</a>
+       <a href="contact.php">Contact</a>
+       <a href="profile.php">MyPage</a>
+       <a href="post.php">POST</a>
+       <a class="active" href="json_map.php">*MAP*</a>
        <a href="javascript:void(0);" style="font-size:30px;" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
   
