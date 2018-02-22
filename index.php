@@ -3,9 +3,8 @@
 
 // DBに接続
 require('dbconnect.php');
+//var_dump($_SESSION["id"]);
 
-//test
-//test2
 
 //クッキー情報が存在してたら（自動ログイン）
 // $_POSTにログイン情報を保存します
@@ -81,7 +80,7 @@ if (isset($_COOKIE["email"]) && !empty($_COOKIE["email"])){
       }
 
       // 4.ログイン後の画面に移動
-      header("Location: post.php");
+      header("Location: json_map.php");
       exit();
     }
 
@@ -260,6 +259,11 @@ if (isset($_COOKIE["email"]) && !empty($_COOKIE["email"])){
                             <!--      <a href="join/index.php"> -->
                         <input type="submit" id="ajax" class="hero-btn2" value="Confirm Account" />
                         </div>
+
+                        <a href="index.php" class="submit_button">
+                        <input type="button" value="Back" class="submit_button">
+                        </a>
+
                         <div class="result"></div>
                         <script type="text/javascript">
 
