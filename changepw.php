@@ -1,3 +1,11 @@
+<!-- <?php
+session_start();
+
+//DB接続
+require('dbconnect.php');
+var_dump($_SESSION["id"]);
+?> -->
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -42,7 +50,7 @@
     <div class="row">
       <div class="col-xs-6 col-xs-offset-3 content-margin-top">
         <legend class="profile_title">Change Password</legend>
-          <form id="update" method="post" action="changepw1.php" class="form-horizontal" role="form" enctype="multipart/form-data">
+          <form id="update" method="post" action="join/changepw1.php" class="form-horizontal" role="form" enctype="multipart/form-data">
             <!-- old password -->
               <div class="form-group">
                 <label for="oldpw" class="col-sm-4 control-label">Old Password</label>
@@ -58,6 +66,9 @@
                         <p class="error">古いパスワードは、4文字以上入力してください。</p>
                         <?php } ?>  
 
+                        <?php if (isset($_GET["error"]) && ($_GET["error"] == 8)) { ?>
+                        <p class="error">古いパスワードが正しく入力されていません。</p>
+                        <?php } ?>  
 
              <!-- new password -->
               <div class="form-group">
@@ -73,6 +84,8 @@
                         <?php if (isset($_GET["error"]) && ($_GET["error"] == 4)) { ?>
                         <p class="error">新しいパスワードは、4文字以上入力してください。</p>
                         <?php } ?>  
+
+
 
               <!-- confirm password -->
               <div class="form-group">
@@ -92,6 +105,10 @@
 
                         <?php if (isset($_GET["error"]) && ($_GET["error"] == 7)) { ?>
                           <p class="error">* 入力された新しいパスワードと確認パスワードが一致しません。</p>
+                        <?php } ?>
+
+                        <?php if (isset($_GET["error"]) && ($_GET["error"] == 9)) { ?>
+                          <p class="error">* パスワードが正常に変更されました。</p>
                         <?php } ?>
 
               <br>
@@ -173,7 +190,7 @@
   <!-- form、inputにidをつける -->
   <!-- 関数でまとめる -->
   <!-- Change Profile -->
-  <script>
+<!--   <script>
     $(document).on('click', '#btn-submit', function(e) {
          e.preventDefault();
           popup();
@@ -224,6 +241,6 @@
           }
       });
     }
-  </script>
+  </script> -->
 </body>
 </html>
