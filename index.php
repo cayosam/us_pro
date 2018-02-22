@@ -1,9 +1,11 @@
 <?php
+session_start();
+
 //ログイン認証機能
 
 // DBに接続
 require('dbconnect.php');
-//var_dump($_SESSION["id"]);
+// var_dump($_SESSION["id"]);
 
 
 //クッキー情報が存在してたら（自動ログイン）
