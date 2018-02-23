@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 //ログイン認証機能
 
 // DBに接続
@@ -81,7 +84,7 @@ if (isset($_COOKIE["email"]) && !empty($_COOKIE["email"])){
       }
 
       // 4.ログイン後の画面に移動
-      header("Location: post.php");
+      header("Location: json_map.php");
       exit();
     }
 
