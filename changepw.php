@@ -111,6 +111,12 @@ var_dump($_SESSION["id"]);
                           <p class="error">* パスワードが正常に変更されました。</p>
                         <?php } ?>
 
+                        <?php
+                        // ログインページへ遷移
+                        header('Location: thanksreset.php');
+                          exit();
+                        ?>
+
               <br>
               <div class="submit_button col-xs-offset-3">
                 <input id="btn-submit" type="submit" class="btn btn-default" value="Change Password">
