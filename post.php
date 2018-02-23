@@ -1,79 +1,14 @@
-<!-- <?php
-
+<?php
+session_start();
 //DBに接続
 require('dbconnect.php');
 
-if(isset($_POST) && !empty($_POST["lat"]) && !empty($_POST["lng"]) && !empty($_POST["iframe"])){
-  //trim関数 文字列の両端の空白を削除
-    $lat = trim($_POST['lat']);
-     $lng = trim($_POST['lng']);
-     $iframe = trim($_POST['iframe']);
 
-  try{
-//DBに動画情報を登録するSQL文
-  //now() MySQLが用意した関数。現在日時を取得。
-  $sql = " INSERT INTO `map`(`lat`, `lng`,
-  `iframe`, `created`)
-   VALUES ('$lat','$lng','$iframe',now() )";
-
-  //SQL文実行
-   //sha1 暗号化行う関数
-   $data = array($lat, $lng, $iframe);
-
-// print $sql."<br />\n";
-// var_dump($data);
-   $stmt = $dbh->prepare($sql);
-   $stmt->execute($data);
-
-   header("Location: post.php");
-    exit();
-
-  }catch(Exception $e){
-
-  }
-}
-
-try{
-
- //markerしてる人の情報とる
-    $sql = "SELECT * FROM `map` ";
-
-    //sql実行
-    //実行待ち
-    $stmt = $dbh->prepare($sql);
-    //実行
-    $stmt->execute();
-
-   
-
-      //PDOはPHP Data Objects FETCH_ASSOCは連想配列で取り出す意味
-    $marker_data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    //echo json_encode($marker_data);
-//var_dump($marker_data);
-
-  //   while (1) {
-
-  //     //PDOはPHP Data Objects FETCH_ASSOCは連想配列で取り出す意味
-  //   $marker_data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-  //   if ($marker_data == false){
-  //       break;//中断する
-  //   }
-  // }
-
-
-
-}catch(Exception $e){
-
-  }
-
-
+var_dump($_SESSION["id"]);
 
 
 
 ?>
- -->
 
     <html>
 
@@ -120,11 +55,11 @@ try{
        <a class="navbar-brand logo" href="#"></a>
        
     <div class=" topnav" id="myTopnav">
-      <a href="#">Logout</a>
-       <a href="#">Contact</a>
-       <a href="#">MyPage</a>
-       <a class="active" href="#">POST</a>
-       <a href="#">*MAP*</a>
+      <a href="logout.php">Logout</a>
+       <a href="contact.php">Contact</a>
+       <a href="profile.php">MyPage</a>
+       <a class="active" href="post.php">POST</a>
+       <a href="json_map.php">*MAP*</a>
        <a href="javascript:void(0);" style="font-size:30px;" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
   
