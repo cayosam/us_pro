@@ -7,19 +7,19 @@
 
     <title>Change Password</title>
     <!-- Bootstrap -->
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="../css/bootstrap.css" rel="stylesheet">
     <!--<link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet">-->
     <!-- <link href="assets/css/form.css" rel="stylesheet"> -->
     <!--<link href="assets/css/timeline.css" rel="stylesheet">-->
     <!-- <link href="profile.css" rel="stylesheet" type="text/css"> -->
 
-    <script type="text/javascript" src="js/footerFixed.js"></script>
+    <script type="text/javascript" src="../js/footerFixed.js"></script>
     <!-- header -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/navi.css" />
-    <link rel="stylesheet" href="css/hero.css" />
-    <script src="js/sweetalert.min.js"></script>
-    <script src="js/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="../css/navi.css" />
+    <link rel="stylesheet" href="../css/hero.css" />
+    <script src="../js/sweetalert.min.js"></script>
+    <script src="../js/jquery-3.3.1.min.js"></script>
 </head>
 <body>
 
@@ -56,7 +56,7 @@
         <div class="col-sm-2"></div>
           <div class="col-sm-8 webscope">
             <span class="webscope-text"> The world view by </span>
-            <a href=""> <img src="img/logo04.png"/> </a>
+            <a href=""> <img src="../img/logo04.png"/> </a>
           </div>
         <div class="col-sm-2"></div>
       </div>
@@ -65,8 +65,8 @@
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="assets/js/jquery-3.1.1.js"></script>
-    <script src="assets/js/jquery-migrate-1.4.1.js"></script>
-    <script src="assets/js/bootstrap.js"></script>
+    <script src="../assets/js/jquery-3.1.1.js"></script>
+    <script src="../assets/js/jquery-migrate-1.4.1.js"></script>
+    <script src="../assets/js/bootstrap.js"></script>
   </body>
 </html>
