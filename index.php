@@ -6,9 +6,8 @@ session_start();
 
 // DBに接続
 require('dbconnect.php');
+// var_dump($_SESSION["id"]);
 
-//test
-//test2
 
 //クッキー情報が存在してたら（自動ログイン）
 // $_POSTにログイン情報を保存します
@@ -74,14 +73,10 @@ if (isset($_COOKIE["email"]) && !empty($_COOKIE["email"])){
       // 2.ログインした時間をセッション変数の保存
       $_SESSION["time"] = time();
 
-      // 3.自動ログインの処理
-      if ($_POST["save"] == "on"){
         //クッキーにログイン情報を記録
         // setcookie(保存したい名前,保存したい値,保存したい期間：秒数)
         setcookie('login_email',$_POST["login_email"], time()+60*60*24*14);
         setcookie('login_password',$_POST["login_password"], time()+60*60*24*14);
-
-      }
 
       // 4.ログイン後の画面に移動
       header("Location: json_map.php");
@@ -263,6 +258,11 @@ if (isset($_COOKIE["email"]) && !empty($_COOKIE["email"])){
                             <!--      <a href="join/index.php"> -->
                         <input type="submit" id="ajax" class="hero-btn2" value="Confirm Account" />
                         </div>
+
+                        <a href="index.php" class="submit_button">
+                        <input type="button" value="Back" class="submit_button">
+                        </a>
+
                         <div class="result"></div>
                         <script type="text/javascript">
 

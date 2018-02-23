@@ -47,6 +47,23 @@
 </div>
   </div>
     </div>
+
+
+
+  <div id="footer" class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-2"></div>
+          <div class="col-sm-8 webscope">
+            <span class="webscope-text"> The world view by </span>
+            <a href=""> <img src="img/logo04.png"/> </a>
+          </div>
+        <div class="col-sm-2"></div>
+      </div>
+    </div>
+  </div>
+
+
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="assets/js/jquery-3.1.1.js"></script>
     <script src="assets/js/jquery-migrate-1.4.1.js"></script>
