@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 //ログイン認証機能
