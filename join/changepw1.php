@@ -60,8 +60,8 @@ if(isset($_POST["oldpw"]) && !empty($_POST["newpw"] && !empty($_POST["confirmpw"
 
   $login_member = $oldpw_stmt->fetch(PDO::FETCH_ASSOC);
 
-var_dump($login_member['password']);
-var_dump($_POST["oldpw"]);
+// var_dump($login_member['password']);
+// var_dump($_POST["oldpw"]);
 
 if ($login_member["password"] == sha1($_POST["oldpw"])) {
 
@@ -76,6 +76,8 @@ if ($login_member["password"] == sha1($_POST["oldpw"])) {
     $ud_pwd_stmt->execute($ud_pwd_data);
 
     $redirect_flag = 9;
+
+
 }
 
 }else{

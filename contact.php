@@ -10,14 +10,14 @@ require('dbconnect.php');
     $nick_name = $_POST["nick_name"];
     $email = $_POST["email"];
     $inquiries = $_POST["inquiries"];
-    //$member_id = $_SESSION['userID'];
+    $member_id = $_SESSION['id'];
 
     // if($inquiries == ""){
     //   $error["inquiries"] = "blank";
     // }
 
     //if(!isset($error)){
-      $sql = "INSERT INTO `whereis_contact`(`member_id`, `nick_name`, `email`, `inquiries`, `created`) VALUES (19876, '$nick_name', '$email', '$inquiries', now())";
+      $sql = "INSERT INTO `whereis_contact`(`member_id`, `nick_name`, `email`, `inquiries`, `created`) VALUES (`$member_id`, '$nick_name', '$email', '$inquiries', now())";
       $data = array($nick_name, $email, $inquiries);
       $stmt = $dbh->prepare($sql);
       $stmt->execute();
