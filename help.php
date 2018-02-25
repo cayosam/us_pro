@@ -74,13 +74,15 @@
     </div> -->
 
 <header>
-   <a class="navbar-brand logo" href="#"></a>
+   <a class="navbar-brand logo" href="index.php"></a>
     <div class=" topnav" id="myTopnav"> 
-      <a href="index.html">Logout</a>
-      <a class="active" href="contact.html">Contact</a>
-      <a href="profile.html">MyPage</a>
-      <a href="post.html">POST</a>
-      <a href="json_map.html">*MAP*</a>
+      <?php if (isset($_SESSION["id"])){ ?>
+      <a href="logout.php">Logout</a>
+      <a href="profile.php">MyPage</a>
+      <a href="post.php">POST</a>
+      <?php } ?>
+      <a class="active" href="contact.php">Contact</a>
+      <a href="json_map.php">*MAP*</a>
       <a href="javascript:void(0);" style="font-size:30px;" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
 </header>
@@ -153,7 +155,7 @@
 
                       <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree" aria-expanded="false">
                       <div class="panel-body">
-                      例えば、肖像権侵害と思われる動画を発見。通報と削除依頼をする場合は<u><a href="contact.html" style="display:inline">Contact Us</a></u> から申請をしてください。ただし、Youtubeから消えるわけではないのでご注意を。
+                      例えば、肖像権侵害と思われる動画を発見。通報と削除依頼をする場合は<u><a href="contact.php" style="display:inline">Contact Us</a></u> から申請をしてください。ただし、Youtubeから消えるわけではないのでご注意を。
                       </div>
                       </div>
                       </div>
