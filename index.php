@@ -219,9 +219,9 @@ function trans($word,$lang){
                   <input type="button" value="Visitor" class="submit_button">
                   </a>
 
-                        <div id="forget_pw">
+<!--                         <div id="forget_pw">
                             <p>passwordを忘れた方は<a href="resetpw.php">こちら</a></p>
-                        </div>
+                        </div> -->
 
                         <div class="hr">
                             <div></div>
