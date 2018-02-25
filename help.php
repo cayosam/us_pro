@@ -155,7 +155,7 @@
 
                       <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree" aria-expanded="false">
                       <div class="panel-body">
-                      例えば、肖像権侵害と思われる動画を発見。通報と削除依頼をする場合は<u><a href="contact.html" style="display:inline">Contact Us</a></u> から申請をしてください。ただし、Youtubeから消えるわけではないのでご注意を。
+                      例えば、肖像権侵害と思われる動画を発見。通報と削除依頼をする場合は<u><a href="contact.php" style="display:inline">Contact Us</a></u> から申請をしてください。ただし、Youtubeから消えるわけではないのでご注意を。
                       </div>
                       </div>
                       </div>
