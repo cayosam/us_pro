@@ -1,3 +1,38 @@
+<?php
+
+require("dbconnect.php");
+
+  if(isset($_POST) && !empty($_POST)){
+
+    $sql = "SELECT * FROM `whereis_members` WHERE `email` = ?";
+    $data = array($_POST["email"]);
+    $stmt = $dbh->prepare($sql);
+    $stmt->execute($data);
+
+    $member = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $str_reset_pw = $member["email"] + $$member["modified"];
+    $reset_sql = "UPDATE `whereis_members` SET `password`= ? WHERE `email`";
+    $reset_data = array(sha1($str_reset_pw),$member["email"]);
+    $reset_stmt = $dbh->prepare($reset_sql);
+    $reset_stmt->execute($reset_data);
+
+    $reset_url = "http://localhost/us_pro_kayo/changepw.php/code=".sha1($str_reset_pw);
+    $mail_body = "パスワードを再設定するため、下記リンクを押してください。";
+    $mail_body .=$reset_url;
+    $email = $member["email"];
+    $title = "WHERE IS * よりパスワード再設定のお知らせ";
+    $mail_head = "From:p100slp33@yahoo.co.jp";
+    $mail_body = html_entity_decode($email_body,ENT_QUOTES,"UTF_8");
+    //文字化け対策
+    mb_language("Japanese");
+    mb_internal_encoding("UTF_8")
+    mb_send_mail($email,$title,$mail_body,$mail_head);
+
+    header("Location: index.php");
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -25,11 +60,11 @@
 <header>
     <a class="navbar-brand logo" href="#"></a>
     <div class=" topnav" id="myTopnav">
-      <a href="index.html">Logout</a>
-      <a href="contact.html">Contact</a>
-      <a class="active" href="profile.html">MyPage</a>
-      <a href="post.html">POST</a>
-      <a href="json_map.html">*MAP*</a>
+      <a href="logout.php">Logout</a>
+       <a href="contact.php">Contact</a>
+       <a class="active" href="profile.php">MyPage</a>
+       <a href="post.php">POST</a>
+       <a href="json_map.php">*MAP*</a>
       <a href="javascript:void(0);" style="font-size:30px;" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
 </header>

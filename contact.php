@@ -10,14 +10,10 @@ require('dbconnect.php');
     $nick_name = $_POST["nick_name"];
     $email = $_POST["email"];
     $inquiries = $_POST["inquiries"];
-    //$member_id = $_SESSION['userID'];
-
-    // if($inquiries == ""){
-    //   $error["inquiries"] = "blank";
-    // }
+    $member_id = $_SESSION['id'];
 
     //if(!isset($error)){
-      $sql = "INSERT INTO `whereis_contact`(`member_id`, `nick_name`, `email`, `inquiries`, `created`) VALUES (19876, '$nick_name', '$email', '$inquiries', now())";
+      $sql = "INSERT INTO `whereis_contact`(`member_id`, `nick_name`, `email`, `inquiries`, `created`) VALUES ($member_id, '$nick_name', '$email', '$inquiries', now())";
       $data = array($nick_name, $email, $inquiries);
       $stmt = $dbh->prepare($sql);
       $stmt->execute();
@@ -70,13 +66,6 @@ require('dbconnect.php');
         });
       }
 
-      // }var map;
-      // function initMap() {
-        // map = new google.maps.Map(document.getElementById('map'), {
-          // center: {lat: -34.397, lng: 150.644},
-          // zoom: 8
-        // });
-      // }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAL3qe_lcSnHCs7ENLJM9sMEHnxNABZb04&callback=initMap"
     async defer></script>
@@ -105,13 +94,16 @@ require('dbconnect.php');
 <body>
 
 <header>
-   <a class="navbar-brand logo" href="#"></a>
-    <div class=" topnav" id="myTopnav">
-      <a href="index.html">Logout</a>
-      <a class="active" href="contact.html">Contact</a>
-      <a href="profile.html">MyPage</a>
-      <a href="post.html">POST</a>
-      <a href="json_map.html">*MAP*</a>
+   <a class="navbar-brand logo" href="index.php"></a>
+    <div class=" topnav" id="myTopnav"> 
+       <?php if (isset($_SESSION["id"])){ ?>
+       <a href="logout.php">Logout</a>
+       <a href="profile.php">MyPage</a>
+       <a href="post.php">POST</a>
+       <?php } ?>
+       <a href="help.php">Help</a>
+       <a class="active" href="contact.php">Contact</a>
+       <a href="json_map.php">*MAP*</a>
       <a href="javascript:void(0);" style="font-size:30px;" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
 </header>
@@ -152,12 +144,6 @@ require('dbconnect.php');
                   <div class="form-group">
                     <div class="col-sm-11">
                       <textarea name="inquiries" class="form-control" placeholder="Enter Your Message" value="" rows="10" cols="100"></textarea>
-
-
-                      <!-- <?php if(isset($error["inquiries"]) && ($error["inquiries"] == "blank")){ ?>
-                        <p class="error">Please Enter Your Message.</p>
-                      <?php } ?> -->
-
 
                       <?php if(isset($_POST["inquiries"]) && ($_POST["inquiries"] == "")){ ?>
                         <p class="error">Please Enter Your Message.</p>

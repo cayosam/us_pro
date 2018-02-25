@@ -32,13 +32,10 @@ var_dump($_SESSION["id"]);
 <body>
 
 <header>
- <a class="navbar-brand logo" href="#"></a>
+ <a class="navbar-brand logo" href="index.php"></a>
     <div class=" topnav" id="myTopnav">
-     
-      <a href="logout.php">Logout</a>
+    <a href="help.php">Help</a>
       <a href="contact.php">Contact</a>
-      <a class="active" href="profile.php">MyPage</a>
-      <a href="post.php">POST</a>
       <a href="json_map.php">*MAP*</a>
       <a href="javascript:void(0);" style="font-size:30px;" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
@@ -110,6 +107,7 @@ var_dump($_SESSION["id"]);
                         <?php if (isset($_GET["error"]) && ($_GET["error"] == 9)) { ?>
                           <p class="error">* パスワードが正常に変更されました。</p>
                         <?php } ?>
+
 
               <br>
               <div class="submit_button col-xs-offset-3">
