@@ -55,7 +55,7 @@ require('dbconnect.php');
 
     $delete_movie = $one_movie["id"];
 
-    //var_dump($delete_movie);
+    var_dump($delete_movie);
 
     $del_sql = "DELETE FROM `whereis_map` WHERE `id`=".$delete_movie;
     $del_stmt = $dbh->prepare($del_sql);
@@ -105,13 +105,14 @@ var_dump($_SESSION["id"]);
 <header>
     <a class="navbar-brand logo" href="index.php"></a>
     <div class=" topnav" id="myTopnav">
-      <?php if (isset($_SESSION["id"])){ ?>
-      <a href="logout.php">Logout</a>
-      <a class="active" href="profile.php">MyPage</a>
-      <a href="post.php">POST</a>
-      <?php } ?>
-      <a href="contact.php">Contact</a>
-      <a href="json_map.php">*MAP*</a>
+     <?php if (isset($_SESSION["id"])){ ?>
+       <a href="logout.php">Logout</a>
+       <a href="profile.php">MyPage</a>
+       <a href="post.php">POST</a>
+       <?php } ?>
+       <a class="active" href="help.php">Help</a>
+       <a href="contact.php">Contact</a>
+       <a href="json_map.php">*MAP*</a>
       <a href="javascript:void(0);" style="font-size:30px;" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
 </header>
@@ -144,7 +145,7 @@ var_dump($_SESSION["id"]);
            <!-- </button> -->
           </div>
           <div class="submit_button">
-            <a href="changepw.php" class="btn btn-default">Change Password</a>
+            <a href="changepw.html" class="btn btn-default">Change Password</a>
             <!-- <input type="submit" class="btn btn-default" value="Change Password"> -->
           </div>
         </form>
@@ -178,7 +179,7 @@ var_dump($_SESSION["id"]);
                   ?>
                   </a><br>
                   <!-- <?php //if(isset($_GET["id"]) && !empty($_GET["id"])){}?> -->
-                   <!--  <input id="btn-delete" name="delete" type="submit" class="btn btn-default delete" value="削除"  data-add="<?php //echo $one_movie["<address></address>"];?>"> -->
+                   <!--  <input id="btn-delete" name="delete" type="submit" class="btn btn-default delete" value="削除"  data-add="<?php echo $one_movie["<address></address>"];?>"> -->
 
 
 
@@ -210,7 +211,13 @@ var_dump($_SESSION["id"]);
     </div>
   </div>
 
-<script src="js/navi.js"> </script>
+  <script src="js/navi.js"> </script>
+
+  <!-- ポイント2つ -->
+  <!-- form、inputにidをつける -->
+  <!-- 関数でまとめる -->
+  <!-- Change Profile -->
+
 <script src="js/warning_form.js"></script>
 
 </body>

@@ -12,12 +12,8 @@ require('dbconnect.php');
     $inquiries = $_POST["inquiries"];
     $member_id = $_SESSION['id'];
 
-    // if($inquiries == ""){
-    //   $error["inquiries"] = "blank";
-    // }
-
     //if(!isset($error)){
-      $sql = "INSERT INTO `whereis_contact`(`member_id`, `nick_name`, `email`, `inquiries`, `created`) VALUES (`$member_id`, '$nick_name', '$email', '$inquiries', now())";
+      $sql = "INSERT INTO `whereis_contact`(`member_id`, `nick_name`, `email`, `inquiries`, `created`) VALUES ($member_id, '$nick_name', '$email', '$inquiries', now())";
       $data = array($nick_name, $email, $inquiries);
       $stmt = $dbh->prepare($sql);
       $stmt->execute();
@@ -70,13 +66,6 @@ require('dbconnect.php');
         });
       }
 
-      // }var map;
-      // function initMap() {
-        // map = new google.maps.Map(document.getElementById('map'), {
-          // center: {lat: -34.397, lng: 150.644},
-          // zoom: 8
-        // });
-      // }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAL3qe_lcSnHCs7ENLJM9sMEHnxNABZb04&callback=initMap"
     async defer></script>
@@ -106,12 +95,13 @@ require('dbconnect.php');
 
 <header>
    <a class="navbar-brand logo" href="index.php"></a>
-    <div class=" topnav" id="myTopnav">
-      <?php if (isset($_SESSION["id"])){ ?>      
-      <<a href="logout.php">Logout</a>
+    <div class=" topnav" id="myTopnav"> 
+       <?php if (isset($_SESSION["id"])){ ?>
+       <a href="logout.php">Logout</a>
        <a href="profile.php">MyPage</a>
        <a href="post.php">POST</a>
        <?php } ?>
+       <a href="help.php">Help</a>
        <a class="active" href="contact.php">Contact</a>
        <a href="json_map.php">*MAP*</a>
       <a href="javascript:void(0);" style="font-size:30px;" class="icon" onclick="myFunction()">&#9776;</a>
@@ -144,22 +134,16 @@ require('dbconnect.php');
                       </div>
                   </div>
                   <!-- Subject -->
-                  <!-- <div class="form-group">
+                  <div class="form-group">
                     <label class="col-sm-3 control-label">Subject</label>
                       <div class="col-sm-8">
                         <input type="text" name="subject" class="form-control" value="">
                       </div>
-                  </div> -->
+                  </div>
                   <!-- Message -->
                   <div class="form-group">
                     <div class="col-sm-11">
                       <textarea name="inquiries" class="form-control" placeholder="Enter Your Message" value="" rows="10" cols="100"></textarea>
-
-
-                      <!-- <?php if(isset($error["inquiries"]) && ($error["inquiries"] == "blank")){ ?>
-                        <p class="error">Please Enter Your Message.</p>
-                      <?php } ?> -->
-
 
                       <?php if(isset($_POST["inquiries"]) && ($_POST["inquiries"] == "")){ ?>
                         <p class="error">Please Enter Your Message.</p>

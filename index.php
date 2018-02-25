@@ -1,6 +1,59 @@
 <?php
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+  session_start();
+
+// DBに接続
+  require('dbconnect.php');
+
+  // 会員ボタンが押されたとき
+    if (isset($_POST) && !empty($_POST)) {
+      // 変数に入力された値を代入して扱いやすいようにする
+      $nick_name = $_POST['nick_name'];
+      $email = $_POST['email'];
+      $password = $_POST['password'];
+
+      try {
+  // DBに会員情報を登録するSQL文を作成
+  // now() MYSQLが用意している関数。現在日時を取得できる
+        $sql = "INSERT INTO `whereis_members` (`nick_name`, `email`, `password`, `created`, `modified`) VALUES (?,?,?,now(),now()) ";
+
+  // SQL文実行
+  // sha1 暗号化を行う関数
+        $data = array($nick_name,$email,sha1($password));
+        $stmt = $dbh->prepare($sql);
+        $stmt->execute($data);
+
+  // $_SESSIONの情報を削除
+  // // unset 指定した変数を削除するという意味。SESSIONじゃなくても使える
+  //       unset($_POST["join"]);
+
+  // ログインページへ遷移
+       header('Location: json_map.html');
+        exit();
+
+
+      } catch (Exception $e) {
+        // tryで囲まれた処理でエラーが発生したときにやりたい処理を記述
+        
+        echo 'SQL実行エラー:' . $e->getMessage();
+        exit();
+
+      }
+    }
+
+?>
+
+
+
+
+
+=======
+>>>>>>> map
 session_start();
+>>>>>>> master
 
 //ログイン認証機能
 
@@ -125,7 +178,11 @@ if (isset($_COOKIE["email"]) && !empty($_COOKIE["email"])){
     <div class="container">
         <div class="header-container header">
             <div class="header-right">
+<<<<<<< HEAD
+                <a class="navbar-item" href="contact.html">Contact</a>
+=======
                 <a class="navbar-item" href="contact.php">Contact</a>
+>>>>>>> master
             </div>
         </div>
         <!--end of navigation-->
@@ -140,6 +197,18 @@ if (isset($_COOKIE["email"]) && !empty($_COOKIE["email"])){
                 <div class="col-sm-6 col-sm-6 ">
                     <div class="loginpanel">
                         <div class="txt">
+<<<<<<< HEAD
+                            <input id="user6" type="text" placeholder="E-mail" name="login_email" />
+                            <label for="user" class="entypo-mail"></label>
+                        </div>
+                        <div class="txt">
+                            <input id="pwd7" type="password" placeholder="Password" name="login_password" />
+                            <label for="pwd" class="entypo-lock"></label>
+                        </div>
+
+                    <div class="buttons">
+                            <input type="submit" value="Login" />
+=======
                             <input id="user6" type="email" placeholder="E-mail" name="login_email" />
                             <label for="user" class="entypo-mail"></label>
                   <?php if ((isset($error["login_email"])) && ($error["login_email"]== 'blank')) { ?>
@@ -164,17 +233,26 @@ if (isset($_COOKIE["email"]) && !empty($_COOKIE["email"])){
                         </div>
                     <div class="buttons">
                             <input type="submit" value="Login" name="btn" />
+>>>>>>> master
                             <span>
                     <a href="javascript:void(0)" class="entypo-user-add" > Register</a>
                     </span>
                         </div>
 
+<<<<<<< HEAD
+                        <a href="json_map.html" class="submit_button">
+=======
                   <a href="json_map.php" class="submit_button">
+>>>>>>> master
                   <input type="button" value="Visitor" class="submit_button">
                   </a>
 
                         <div id="forget_pw">
+<<<<<<< HEAD
+                            <p>passwordを忘れた方は<a href="#">こちら</a></p>
+=======
                             <p>passwordを忘れた方は<a href="resetpw.php">こちら</a></p>
+>>>>>>> master
                         </div>
 
                         <div class="hr">
@@ -188,11 +266,17 @@ if (isset($_COOKIE["email"]) && !empty($_COOKIE["email"])){
                         </div>
                     </div>
                 </div>
+<<<<<<< HEAD
+
+
+                <!--新規会員登録-->
+=======
                 </form>
 
 
                 <!--新規会員登録-->
                 <form id="modal-content" method="POST" action="request.php" >
+>>>>>>> master
                 <div class="col-sm-6 col-sm-6">
                     <div class="kaiintouroku">
                         <font size="3" color="black">
@@ -201,6 +285,33 @@ if (isset($_COOKIE["email"]) && !empty($_COOKIE["email"])){
                             </strong></u>
                         </font>
                         <div class="txt">
+<<<<<<< HEAD
+                            <input id="user" type="text" placeholder="NickName" />
+                            <label for="user" class="entypo-user-add"></label>
+                            <?php if((isset($error["login"])) && ($error["login"]== 'failed')){ ?>
+                            <p class="error">* emailかパスワードが間違っています。</p>
+                            <?php } ?>
+                        </div>
+
+                        <div class="txt">
+                            <input id="user1" type="text" placeholder="E-mail" />
+                            <label for="user" class="entypo-mail"></label>
+                        </div>
+
+                        <div class="txt">
+                            <input id="user2" type="text" placeholder="Check E-mail Address" />
+                            <label for="user" class="entypo-mail"></label>
+                        </div>
+
+                        <div class="txt">
+                            <input id="pwd1" type="password" placeholder="Password" />
+                            <label for="pwd" class="entypo-lock"></label>
+                        </div>
+
+                        <div class="txt">
+                            <input id="pwd2" type="password" placeholder="Check Password" />
+                            <label for="pwd" class="entypo-lock"></label>
+=======
                         <input id="username" type="email" placeholder="NickName" name="nick_name" />
                         <label for="username" class="entypo-user-add"></label>
 
@@ -248,14 +359,28 @@ if (isset($_COOKIE["email"]) && !empty($_COOKIE["email"])){
                         <?php if (isset($_GET["error"]) && ($_GET["error"] == 8)) { ?>
                           <p class="error">* 入力されたパスワードと確認パスワードが一致しません。</p>
                         <?php } ?>
+>>>>>>> master
                         </div>
 
                         <div class="txt">
                         </div>
+<<<<<<< HEAD
+
+=======
+>>>>>>> master
                         
 
                         <div class="buttons">
                             <!--      <a href="join/index.php"> -->
+<<<<<<< HEAD
+                            <input type="button" class="hero-btn2" value="Confirm Account">
+                        </div>
+                    </div>
+                </div>
+                <!--end of 新規会員登録-->
+
+               <!--会員登録確認-->
+=======
                         <input type="submit" id="ajax" class="hero-btn2" value="Confirm Account" />
                         </div>
 
@@ -326,6 +451,7 @@ if (isset($_COOKIE["email"]) && !empty($_COOKIE["email"])){
 
                <!--会員登録確認-->
                <form method="POST" action="join/new.php" >
+>>>>>>> master
                 <div class="col-sm-6 col-sm-6">
                     <div class="kaiintouroku2">
                         <font size="3" color="black">
@@ -337,16 +463,49 @@ if (isset($_COOKIE["email"]) && !empty($_COOKIE["email"])){
                         </font>
                         
                         <div class="txt">
+<<<<<<< HEAD
+                            <input id="nick_name" type="text" placeholder="NickName" name="nick_name" readonly />
+=======
                             <input id="nick_name" type="email" placeholder="NickName" name="nick_name" readonly />
+>>>>>>> master
                             <label for="user" class="entypo-user-add"></label>
                         </div>
 
                         <div class="txt">
+<<<<<<< HEAD
+                            <input id="email" type="text" placeholder="E-mail" name="email" readonly/>
+=======
                             <input id="email" type="email" placeholder="E-mail" name="email" readonly/>
+>>>>>>> master
                             <label for="user" class="entypo-mail"></label>
                         </div>
 
                         <div class="txt">
+<<<<<<< HEAD
+                            <input id="password" type="password" placeholder="Password" name="password" readonly/>
+                            <label for="pwd" class="entypo-lock"></label>
+                        </div>
+                        <!--         <div class="buttons"> -->
+                        <input type="submit" class="hero-btn2" value="Create Account" />
+                    </div>
+                </div>
+                <!--end of 会員登録確認-->
+                
+            </form>
+        </div><!--end of hero row-->
+    </div><!--end of container-->
+</div><!--end of hero-background-->
+    
+    
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+    
+    <script src="js/login.js"></script>
+    <script src="js/script.js"></script>
+=======
                             <input id="password" type="password" placeholder="password" name="password" readonly/>
                             <label for="pwd" class="entypo-lock"></label>
                         </div>
@@ -388,6 +547,7 @@ if (isset($_COOKIE["email"]) && !empty($_COOKIE["email"])){
 <?php }
 
 ?>
+>>>>>>> master
 
 </body>
 
