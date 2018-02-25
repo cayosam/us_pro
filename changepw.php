@@ -32,7 +32,7 @@ var_dump($_SESSION["id"]);
 <body>
 
 <header>
- <a class="navbar-brand logo" href="#"></a>
+ <a class="navbar-brand logo" href="index.php"></a>
     <div class=" topnav" id="myTopnav">
 
       <a href="logout.php">Logout</a>
