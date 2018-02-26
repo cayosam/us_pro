@@ -23,7 +23,7 @@
 <body>
 
 <header>
-    <a class="navbar-brand logo" href="#"></a>
+    <a class="navbar-brand logo" href="index.php"></a>
     <div class=" topnav" id="myTopnav">
        <a href="help.php">Help</a>
        <a href="contact.php">Contact</a>
