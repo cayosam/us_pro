@@ -17,7 +17,7 @@ require("dbconnect.php");
     $reset_stmt = $dbh->prepare($reset_sql);
     $reset_stmt->execute($reset_data);
 
-    $reset_url = "http://localhost/us_pro_kayo/changepw.php/code=".sha1($str_reset_pw);
+    $reset_url = "http://localhost/us_pro/changepw.php/code=".sha1($str_reset_pw);
     $mail_body = "パスワードを再設定するため、下記リンクを押してください。";
     $mail_body .=$reset_url;
     $email = $member["email"];
@@ -26,7 +26,7 @@ require("dbconnect.php");
     $mail_body = html_entity_decode($email_body,ENT_QUOTES,"UTF_8");
     //文字化け対策
     mb_language("Japanese");
-    mb_internal_encoding("UTF_8")
+    mb_internal_encoding("UTF-8");
     mb_send_mail($email,$title,$mail_body,$mail_head);
 
     header("Location: index.php");
@@ -91,7 +91,7 @@ require("dbconnect.php");
             <p>メールアドレス宛に、パスワード変更ページのURLが記載されたメールを送信します。
             </p>
             <div class="submit_button">
-            <a href="send_rpw.html" class="btn btn-default">Send Email</a>
+            <a href="send_rpw.php" class="btn btn-default">Send Email</a>
             <!-- <input type="submit" class="btn btn-default" value="Send Email"> -->
             </div>
           </form>
