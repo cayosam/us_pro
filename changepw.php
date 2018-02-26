@@ -52,7 +52,7 @@ var_dump($_SESSION["id"]);
               <div class="form-group">
                 <label for="oldpw" class="col-sm-4 control-label">Old Password</label>
                   <div class="col-sm-8">
-                    <input id="oldpw" type="password" name="oldpw" class="form-control" value="">
+                    <input id="oldpw" type="password" name="oldpw" class="form-control" >
                   </div>
               </div> 
                         <?php if (isset($_GET["error"]) && ($_GET["error"] == 1)) { ?>
