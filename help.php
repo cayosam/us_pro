@@ -105,9 +105,9 @@ function trans($word,$lang){
        <a href="profile.php">MyPage</a>
        <a href="post.php">POST</a>
        <?php } ?>
-       <a class="active" href="help.php">Help</a>
+       <a href="help.php">Help</a>
        <a href="contact.php">Contact</a>
-       <a href="json_map.php">*MAP*</a>
+       <a class="active" href="json_map.php">*MAP*</a>
       <a href="javascript:void(0);" style="font-size:30px;" class="icon" onclick="myFunction()">&#9776;</a>
     </div>
 </header>
@@ -138,8 +138,8 @@ function trans($word,$lang){
 
                       <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne" aria-expanded="false" style="height: auto;">
                       <div class="panel-body">
-                      俺たちの遊び。<br>
-                      ここってどんなところなんやろー？もしかしたらその疑問に答えてくれるかもしれないもの。
+                       <?php echo trans("俺たちの遊び。",$lang); ?> <br>
+                      <?php echo trans("ここってどんなところなんやろー？もしかしたらその疑問に答えてくれるかもしれないもの。",$lang); ?> 
                       </div>
                       </div>
                       </div>
@@ -156,12 +156,13 @@ function trans($word,$lang){
 
                       <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" aria-expanded="false">
                       <div class="panel-body">
-                      ⑴まずここでログイン必要やから<br>
-                      ⑵youtubeアカウントある？まずそっちにアップして。え？それがそもそもわからんって？これ見てガンバー&nbsp;&nbsp;<u><a href="https://support.google.com/youtube/answer/161805?co=GENIE.Platform%3DDesktop&hl=ja" style="display:inline">Youtube Help</a></u>
+                     <?php echo trans("⑴まずここでログイン必要やから",$lang); ?> <br>
+                      <?php echo trans("⑵youtubeアカウントある？まずそっちにアップして。え？それがそもそもわからんって？これ見てガンバー",$lang); ?>&nbsp;&nbsp;<u>
+                      <a href="https://support.google.com/youtube/answer/57407?co=GENIE.Platform%3DDesktop&hl=en" target="_blank" style="display:inline">Youtube Help</a></u>
                       <br>
-                      ⑶投稿画面のマップクリックして、撮影地の緯度経度を調べて入れて<br>
-                      ⑷youtubeでアップしたい動画を右クリック（マックなら両指クリックの事な）んだら選択肢に「動画コード取得」があると思うから、それクリックな。んだらそれがコピーされるんや<br>
-                      ⑸動画埋め込みコードの所に貼り付けて、GO や！
+                       <?php echo trans("⑶投稿画面のマップクリックして、撮影地の緯度経度を調べて入れて",$lang); ?><br>
+                      <?php echo trans("⑷youtubeでアップしたい動画を右クリック（マックなら両指クリックの事な）んだら選択肢に「動画コード取得」があると思うから、それクリックな。んだらそれがコピーされるんや",$lang); ?><br>
+                      <?php echo trans("⑸動画埋め込みコードの所に貼り付けて、GO や！",$lang); ?>
                       </div>
                       </div>
                       </div>
@@ -179,7 +180,7 @@ function trans($word,$lang){
 
                       <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree" aria-expanded="false">
                       <div class="panel-body">
-                      例えば、肖像権侵害と思われる動画を発見。通報と削除依頼をする場合は<u><a href="contact.php" style="display:inline">Contact Us</a></u> から申請をしてください。ただし、Youtubeから消えるわけではないのでご注意を。
+                      <?php echo trans("例えば、肖像権侵害と思われる動画を発見。通報と削除依頼をする場合は",$lang); ?><u><a href="contact.php" style="display:inline">Contact Us</a></u> <?php echo trans("から申請をしてください。ただし、Youtubeから消えるわけではないのでご注意を。",$lang); ?>
                       </div>
                       </div>
                       </div>

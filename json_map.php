@@ -31,7 +31,6 @@ try{
 
   }
 
-// var_dump($_SESSION["lang"]);
 
 if(isset($_SESSION["lang"])){
     $lang = $_SESSION["lang"];
@@ -48,8 +47,6 @@ function trans($word,$lang){
 }
 }
 
-
-// var_dump($_SESSION['id']);
 
 ?>
 
