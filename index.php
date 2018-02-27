@@ -102,7 +102,7 @@ if (isset($_GET["lang"])){
 
 
 
-var_dump($lang);
+// var_dump($lang);
 
 function trans($word,$lang){
   //翻訳ファイルを読み込み
@@ -220,7 +220,7 @@ function trans($word,$lang){
                   </a>
 
                         <div id="forget_pw">
-                            <p>passwordを忘れた方は<a href="resetpw.php">こちら</a></p>
+                            <p>passwordを忘れた方は<a href="forgetpw.php">こちら</a></p>
                         </div>
 
                         <div class="hr">

@@ -31,6 +31,7 @@ try{
 
   }
 
+
 if(isset($_SESSION["lang"])){
     $lang = $_SESSION["lang"];
 
@@ -45,6 +46,7 @@ function trans($word,$lang){
   return $trans_word;
 }
 }
+
 
 ?>
 
