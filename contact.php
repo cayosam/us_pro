@@ -37,12 +37,7 @@ require('dbconnect.php');
     <title>Contact Us</title>
     <!-- Bootstrap -->
     <link href="css/bootstrap.css" rel="stylesheet">
-    <!--<link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet">-->
-    <!--link href="assets/css/form.css" rel="stylesheet">-->
-    <!--<link href="assets/css/timeline.css" rel="stylesheet">-->
-    <!-- <link href="css/profile_tmp.css" rel="stylesheet"> -->
-    <!-- <link href="css/profile.css" rel="stylesheet"> -->
-    <!--<link rel="styleseet" type="text/css" href="assets/css/bootstrap.css">-->
+
     <script type="text/javascript" src="js/footerFixed.js"></script>
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -134,12 +129,15 @@ require('dbconnect.php');
                       </div>
                   </div>
                   <!-- Subject -->
+<!-- 
                   <div class="form-group">
                     <label class="col-sm-3 control-label">Subject</label>
                       <div class="col-sm-8">
                         <input type="text" name="subject" class="form-control" value="">
                       </div>
-                  </div>
+                  </div> -->
+
+                  
                   <!-- Message -->
                   <div class="form-group">
                     <div class="col-sm-11">
