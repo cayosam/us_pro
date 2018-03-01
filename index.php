@@ -100,10 +100,6 @@ if (isset($_GET["lang"])){
     $_SESSION["lang"] =  $lang;
 }
 
-
-
-var_dump($lang);
-
 function trans($word,$lang){
   //翻訳ファイルを読み込み
   require("lang/words_".$lang.".php");
