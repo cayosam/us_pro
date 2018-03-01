@@ -160,7 +160,7 @@ require('dbconnect.php');
            <!-- </button> -->
           </div>
           <div class="submit_button">
-            <a href="changepw.html" class="btn btn-default">Change Password</a>
+            <a href="changepw.php" class="btn btn-default">Change Password</a>
             <!-- <input type="submit" class="btn btn-default" value="Change Password"> -->
           </div>
         </form>
