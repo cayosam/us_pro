@@ -38,10 +38,10 @@ require('dbconnect.php');
   $movie_stmt = $dbh->prepare($movie_sql);
   $movie_stmt->execute($movie_data);
 
-       // var_dump($movie_sql);
-       // var_dump($movie_data);
+        //var_dump($movie_sql);
+        //var_dump($movie_data);
 
-  $whereis_map = array();
+     $whereis_map = array();
       while(1){
 
         $one_movie = $movie_stmt->fetch(PDO::FETCH_ASSOC);
@@ -51,24 +51,39 @@ require('dbconnect.php');
         }else{
           $whereis_map[] = $one_movie;
 
-  if(isset($_POST["delete"])){
+      }
 
-    $delete_movie = $one_movie["id"];
 
-    var_dump($delete_movie);
 
-    $del_sql = "DELETE FROM `whereis_map` WHERE `id`=".$delete_movie;
-    $del_stmt = $dbh->prepare($del_sql);
-    $del_stmt ->execute();
 
-    header("Location: profile.php?member_id".$_SESSION["id"]);
-    exit();
+
+        // if(isset($_POST["delete"])){
+        //   // var_dump(isset($_POST["delete"]))
+        //   $delete_movie = $whereis_map[0]["id"];
+
+        //   var_dump($delete_movie);
+
+
+        //   $del_sql = "DELETE FROM `whereis_map` WHERE `id`=".$delete_movie;
+        //   $del_stmt = $dbh->prepare($del_sql);
+        //   $del_stmt ->execute();
+
+        //   header("Location: profile.php?member_id".$_SESSION["id"]);
+        //   exit();
+        // }
+
+
   }
 
+   // var_dump($_POST);
+      if (!empty($_POST["delete"])) {
+        $del_sql = "DELETE FROM `whereis_map` WHERE `id`=".$_POST["delete"];
+          $del_stmt = $dbh->prepare($del_sql);
+          $del_stmt ->execute();
 
-  }
-  }
-var_dump($_SESSION["id"]);
+          header("Location: profile.php?member_id".$_SESSION["id"]);
+          exit();
+      }
 
 ?>
 
@@ -165,6 +180,7 @@ var_dump($_SESSION["id"]);
               <br>
 
                 <div> <?php echo $one_movie["movie_info"]; ?></div>
+                <div> <?php echo $one_movie["id"]; ?></div>
 
                 <form id="delete" method="post">
                   <a><?php echo $one_movie["address"];?></a>
@@ -184,8 +200,8 @@ var_dump($_SESSION["id"]);
 
 
 
-
-                    <input name="delete" type="submit" class="delete" value="削除">
+                    <input type="hidden" name="delete" value="<?php echo $one_movie["id"] ; ?>" >
+                    <input type="submit" class="delete" value="削除">
 
                     <!-- <a href="profile.php?id=<?php // echo $one_movie["id"]; ?>"><input id="btn-delete" type="button" class="btn btn-default" value="削除"></a> -->
 

@@ -198,7 +198,7 @@ function initialize(data/*Array*/){
         var infoWindow = new google.maps.InfoWindow({
             content:'<div class="infoWindow">'+
             //dat.movie_infoはDBのカラム名
-             '<p>'+dat.movie_info+'</p>'+'<input type="text class=comment">'+
+             '<p>'+dat.movie_info+'</p>'+
              '</div>'
         });
         
